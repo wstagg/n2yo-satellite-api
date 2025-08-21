@@ -1,0 +1,27 @@
+## Config file for satellite tracker ##
+#######################################
+#
+## API Key for https://www.n2yo.com/
+API_KEY = #YOUR API KEY HERE#
+#
+OBSERVER_LAT = 50.96081305800268
+OBSERVER_LON = -0.11800587771065109
+OBSERVER_ALT = 0
+#
+## Given search radius above observer's location
+SEARCH_RAD = 10
+#
+## Satellite identification number // TODO not sure if this should be here
+NORAD_ID = 0
+#
+## Number of future positions to return. Each second is a position. Limit 300 seconds
+SECONDS = 2
+#
+## Number of days of prediction (max 10)
+DAYS = 2
+#
+## Minimum number of seconds the satellite should be considered optically visible during the pass to be returned as result
+MIN_VISIBILITY = 1
+#
+## The minimum elevation acceptable for the highest altitude point of the pass (degrees)
+MIN_ELEVATION = 40
