@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(CURL REQUIRED)
 
+include_directories(${CMAKE_SOURCE_DIR}/include/)
+
 add_executable(satelliteTracker 
 src/main.cpp
 src/DataReceiver.cpp
