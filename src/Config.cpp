@@ -21,6 +21,8 @@ void Config::read()
     
     while (std::getline(f, line))
     {
+        if(line.empty()) continue;
+        
         if (line.front() == '#')
         {
             continue;
@@ -47,44 +49,44 @@ void Config::read()
     }
 }
 
-const std::variant<int, float, std::string> Config::getConfigValue(const ConfigOption configOption)
+const std::variant<int, float, std::string> Config::getConfigValue(const Option configOption)
 {
     switch (configOption)
     {
 
-    case ConfigOption::ApiKey:
+    case Option::ApiKey:
         return apiKey;
         break;
     
-        case ConfigOption::ObserverLat:
+    case Option::ObserverLat:
         return observerLat;
         break;
     
-    case ConfigOption::ObserverLon:
+    case Option::ObserverLon:
         return observerLon;
         break;
     
-    case ConfigOption::ObserverAlt:
+    case Option::ObserverAlt:
         return observerAlt;
         break;
     
-    case ConfigOption::SearchRadius:
+    case Option::SearchRadius:
         return searchRadius;
         break;
 
-    case ConfigOption::Seconds:
+    case Option::Seconds:
         return seconds;
         break;
 
-    case ConfigOption::Days:
+    case Option::Days:
         return days;
         break;
 
-    case ConfigOption::MinVisibility:
+    case Option::MinVisibility:
         return minVisibility;
         break;
     
-    case ConfigOption::MinElevation:
+    case Option::MinElevation:
         return minElevation;
         break;
 

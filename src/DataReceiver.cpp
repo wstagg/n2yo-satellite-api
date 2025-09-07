@@ -17,7 +17,102 @@ DataReceiver::~DataReceiver()
     }
 }
 
-bool DataReceiver::startReceiver(std::string apiCall)
+ResponseData::Tle DataReceiver::getTle(const int &noradId)
+{
+    return callApi<ResponseData::Tle>(ApiType::GetTle, noradId);
+}
+
+ResponseData::SatellitePosition DataReceiver::getSatellitePosition(const int &noradId)
+{
+    return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions, noradId);
+}
+
+ResponseData::SatelliteVisualPass DataReceiver::getSatelliteVisualPass(const int &noradId)
+{
+    return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses, noradId);
+}
+
+ResponseData::SatelliteRadioPass DataReceiver::getSatelliteRadioPass(const int &noradId)
+{
+    return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, noradId);
+}
+
+ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove(const SatelliteCategory &satelliteCategory)
+{
+    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, 0, satelliteCategory);
+}
+
+const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &noradId, const SatelliteCategory &satelliteCategory)
+{
+    std::string apiUrl{baseUrl};
+
+    switch (apiType)
+    {
+    case ApiType::GetTle:
+        apiUrl.append(std::format("{}/{}{}", 
+            apiTypeToString(apiType), 
+            noradId,
+            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+        );
+        break;
+    
+    case ApiType::GetSatellitePositions:
+        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
+            apiTypeToString(apiType),
+            noradId,
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
+            std::get<int>(config.getConfigValue(Config::Option::Seconds)),
+            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+        );
+        break;
+
+    case ApiType::GetVisualPasses:
+        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
+            apiTypeToString(apiType),
+            noradId,
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
+            std::get<int>(config.getConfigValue(Config::Option::Days)),
+            std::get<int>(config.getConfigValue(Config::Option::MinVisibility)),
+            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+        );
+        break;  
+
+    case ApiType::GetRadioPasses:
+        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
+            apiTypeToString(apiType),
+            noradId,
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
+            std::get<int>(config.getConfigValue(Config::Option::Days)),
+            std::get<int>(config.getConfigValue(Config::Option::MinElevation)),
+            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+        );
+        break;
+    
+    case ApiType::WhatsUp:
+        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
+            apiTypeToString(apiType),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
+            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
+            std::get<int>(config.getConfigValue(Config::Option::SearchRadius)),
+            static_cast<int>(satelliteCategory),
+            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+        );
+        break;  
+    default:
+        break;
+    }
+
+    return apiUrl;
+}
+
+bool DataReceiver::makeCurlRequest(std::string apiCall)
 {
     if (!curl) 
     {
@@ -35,87 +130,11 @@ bool DataReceiver::startReceiver(std::string apiCall)
     return res == CURLE_OK;
 }
 
-const std::string_view DataReceiver::getDataString()
-{
-    return data;
-}
-
-void DataReceiver::callApi(const ApiType apiType, const int &noradId, const SatelliteCategory &satelliteCategory)
-{
-    std::string apiUrl{baseUrl};
-
-    switch (apiType)
-    {
-    case ApiType::GetTle:
-        apiUrl.append(std::format("{}/{}{}", 
-            apiTypeToString(apiType), 
-            noradId,
-            std::get<std::string>(config.getConfigValue(ConfigOption::ApiKey)))
-        );
-        break;
-    
-    case ApiType::GetSatellitePositions:
-        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            noradId,
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLat)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLon)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverAlt)),
-            std::get<int>(config.getConfigValue(ConfigOption::Seconds)),
-            std::get<std::string>(config.getConfigValue(ConfigOption::ApiKey)))
-        );
-        break;
-    
-    case ApiType::GetVisualPasses:
-        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            noradId,
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLat)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLon)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverAlt)),
-            std::get<int>(config.getConfigValue(ConfigOption::Days)),
-            std::get<int>(config.getConfigValue(ConfigOption::MinVisibility)),
-            std::get<std::string>(config.getConfigValue(ConfigOption::ApiKey)))
-        );
-        break;
-    
-        case ApiType::GetRadioPasses:
-         apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            noradId,
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLat)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLon)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverAlt)),
-            std::get<int>(config.getConfigValue(ConfigOption::Days)),
-            std::get<int>(config.getConfigValue(ConfigOption::MinElevation)),
-            std::get<std::string>(config.getConfigValue(ConfigOption::ApiKey)))
-        );
-
-        break;
-    case ApiType::WhatsUp:
-        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLat)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverLon)),
-            std::get<float>(config.getConfigValue(ConfigOption::ObserverAlt)),
-            std::get<int>(config.getConfigValue(ConfigOption::SearchRadius)),
-            static_cast<int>(satelliteCategory),
-            std::get<std::string>(config.getConfigValue(ConfigOption::ApiKey)))
-        );
-        break;
-    
-    default:
-        break;
-    }
-
-    startReceiver(apiUrl);
-}
-
 size_t DataReceiver::writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
     auto sizeTotal = size * nmemb;
     std::string s{ptr, sizeTotal};
-    static_cast<DataReceiver*>(userdata)->data.append(s);
+    static_cast<DataReceiver*>(userdata)->dataString.append(s);
  
     return sizeTotal;
 }
@@ -130,7 +149,7 @@ std::string_view DataReceiver::apiTypeToString(const ApiType apiType)
     case ApiType::GetSatellitePositions:
         return "positions";
         break;
-    case ApiType::GetVisualPasses:
+case ApiType::GetVisualPasses:
         return "visualpasses";
         break;
     case ApiType::GetRadioPasses:

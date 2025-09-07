@@ -12,7 +12,8 @@ include_directories(${CMAKE_SOURCE_DIR}/include/)
 add_executable(satelliteTracker 
 src/main.cpp
 src/DataReceiver.cpp
-src/Config.cpp)
+src/Config.cpp
+src/JsonParser.cpp)
 
 target_link_libraries(satelliteTracker
     CURL::libcurl)
