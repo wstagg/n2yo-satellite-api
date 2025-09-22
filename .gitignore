@@ -44,3 +44,4 @@ test/test_runner
 .vscode
 
 config.txt
+.cache/
