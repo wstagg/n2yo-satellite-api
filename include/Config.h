@@ -22,8 +22,7 @@ public:
     };
     
     const std::variant<int, float, std::string> getConfigValue(const Option configOption);
-
-
+    
 private:
     void setConfigValue(const std::string& option, const std::string& value);
 

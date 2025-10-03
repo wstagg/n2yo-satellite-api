@@ -1,3 +1,4 @@
+#pragma once
 enum class SatelliteCategory : int 
 {
     All = 0,

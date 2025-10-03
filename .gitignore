@@ -5,6 +5,7 @@
 *.o
 *.obj
 
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -33,6 +34,7 @@ include/divisible/*
 
 build/**/*
 out/
+src/python/*.so
 
 #lib/*
 bin/*
