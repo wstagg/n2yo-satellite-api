@@ -49,51 +49,9 @@ void Config::read()
     }
 }
 
-const std::variant<int, float, std::string> Config::getConfigValue(const Option configOption)
+const ConfigValues &Config::getConfigValues()
 {
-    switch (configOption)
-    {
-
-    case Option::ApiKey:
-        return apiKey;
-        break;
-    
-    case Option::ObserverLat:
-        return observerLat;
-        break;
-    
-    case Option::ObserverLon:
-        return observerLon;
-        break;
-    
-    case Option::ObserverAlt:
-        return observerAlt;
-        break;
-    
-    case Option::SearchRadius:
-        return searchRadius;
-        break;
-
-    case Option::Seconds:
-        return seconds;
-        break;
-
-    case Option::Days:
-        return days;
-        break;
-
-    case Option::MinVisibility:
-        return minVisibility;
-        break;
-    
-    case Option::MinElevation:
-        return minElevation;
-        break;
-
-    default:
-        return 0;
-        break;
-    }
+    return configValues;
 }
 
 void Config::setConfigValue(const std::string& option, const std::string& value)
@@ -101,46 +59,46 @@ void Config::setConfigValue(const std::string& option, const std::string& value)
 
     if(option == "API_KEY")
     {
-        apiKey.append(value);
+        configValues.apiKey.append(value);
     }
 
     else if(option == "OBSERVER_LAT")
     {
-        observerLat = std::stof(value);
+        configValues.observerLat = std::stof(value);
     }
 
     else if(option == "OBSERVER_LON")
     {
-        observerLon = std::stof(value);  
+        configValues.observerLon = std::stof(value);  
     }
 
     else if(option == "OBSERVER_ALT")
     {
-        observerAlt = std::stof(value);
+        configValues.observerAlt = std::stof(value);
     }
 
     else if(option == "SEARCH_RAD")
     {
-        searchRadius = std::stoi(value);
+        configValues.searchRadius = std::stoi(value);
     }
 
     else if(option == "SECONDS")
     {
-        seconds = std::stoi(value);
+        configValues.seconds = std::stoi(value);
     }
 
     else if(option == "DAYS")
     {
-        days = std::stoi(value);
+        configValues.days = std::stoi(value);
     }
 
     else if(option == "MIN_VISIBILITY")
     {
-        minVisibility = std::stoi(value);
+        configValues.minVisibility = std::stoi(value);
     }
 
     else if(option == "MIN_ELEVATION")
     {
-        minElevation = std::stoi(value);
+        configValues.minElevation = std::stoi(value);
     }
 }

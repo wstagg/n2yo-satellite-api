@@ -1,5 +1,8 @@
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
+#include <boost/python/reference_existing_object.hpp>
+#include <boost/python/return_value_policy.hpp>
+
 #include "Config.h"
 #include "DataReceiver.h"
 #include "ResponseData.h"
@@ -9,8 +12,20 @@
 BOOST_PYTHON_MODULE(satelliteTracker)
 {
     // Config
+    boost::python::class_<ConfigValues>("ConfigValues")
+        .def_readonly("apiKey", &ConfigValues::apiKey)
+        .def_readonly("observerLat", &ConfigValues::observerLat)
+        .def_readonly("observerLon", &ConfigValues::observerLon)
+        .def_readonly("observerAlt", &ConfigValues::observerAlt)
+        .def_readonly("searchRadius", &ConfigValues::searchRadius)
+        .def_readonly("seconds", &ConfigValues::seconds)
+        .def_readonly("days", &ConfigValues::days)
+        .def_readonly("minVisibility", &ConfigValues::minVisibility)
+        .def_readonly("minElevation", &ConfigValues::minElevation);
+    
     boost::python::class_<Config>("Config", boost::python::init<>())
-        .def("read", &Config::read);
+        .def("read", &Config::read)
+        .def("getConfigValues", &Config::getConfigValues, boost::python::return_value_policy<boost::python::reference_existing_object>());
 
     // DataReceiver
     boost::python::class_<DataReceiver>("DataReceiver", boost::python::init<const Config&>())

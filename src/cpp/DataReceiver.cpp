@@ -52,7 +52,7 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &n
         apiUrl.append(std::format("{}/{}{}", 
             apiTypeToString(apiType), 
             noradId,
-            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+            config.getConfigValues().apiKey)
         );
         break;
     
@@ -60,11 +60,11 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &n
         apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
             apiTypeToString(apiType),
             noradId,
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
-            std::get<int>(config.getConfigValue(Config::Option::Seconds)),
-            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+            config.getConfigValues().observerLat,
+            config.getConfigValues().observerLon,
+            config.getConfigValues().observerAlt,
+            config.getConfigValues().seconds,
+            config.getConfigValues().apiKey)
         );
         break;
 
@@ -72,12 +72,12 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &n
         apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
             apiTypeToString(apiType),
             noradId,
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
-            std::get<int>(config.getConfigValue(Config::Option::Days)),
-            std::get<int>(config.getConfigValue(Config::Option::MinVisibility)),
-            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+            config.getConfigValues().observerLat,
+            config.getConfigValues().observerLon,
+            config.getConfigValues().observerAlt,
+            config.getConfigValues().days,
+            config.getConfigValues().minVisibility,
+            config.getConfigValues().apiKey)
         );
         break;  
 
@@ -85,26 +85,27 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &n
         apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
             apiTypeToString(apiType),
             noradId,
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
-            std::get<int>(config.getConfigValue(Config::Option::Days)),
-            std::get<int>(config.getConfigValue(Config::Option::MinElevation)),
-            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+            config.getConfigValues().observerLat,
+            config.getConfigValues().observerLon,
+            config.getConfigValues().observerAlt,
+            config.getConfigValues().days,
+            config.getConfigValues().minElevation,
+            config.getConfigValues().apiKey)
         );
         break;
     
     case ApiType::WhatsUp:
         apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
             apiTypeToString(apiType),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLat)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverLon)),
-            std::get<float>(config.getConfigValue(Config::Option::ObserverAlt)),
-            std::get<int>(config.getConfigValue(Config::Option::SearchRadius)),
+            config.getConfigValues().observerLat,
+            config.getConfigValues().observerLon,
+            config.getConfigValues().observerAlt,
+            config.getConfigValues().searchRadius,
             static_cast<int>(satelliteCategory),
-            std::get<std::string>(config.getConfigValue(Config::Option::ApiKey)))
+            config.getConfigValues().apiKey)
         );
         break;  
+    
     default:
         break;
     }

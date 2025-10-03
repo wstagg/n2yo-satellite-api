@@ -1,31 +1,8 @@
 #pragma once
 #include <string>
-#include <variant>
 
-class Config
+struct ConfigValues
 {
-public:
-    Config();
-    void read();
-    
-    enum class Option
-    {
-        ApiKey,
-        ObserverLat,
-        ObserverLon,
-        ObserverAlt,
-        SearchRadius,
-        Seconds,
-        Days,
-        MinVisibility,
-        MinElevation
-    };
-    
-    const std::variant<int, float, std::string> getConfigValue(const Option configOption);
-    
-private:
-    void setConfigValue(const std::string& option, const std::string& value);
-
     std::string apiKey{"&apiKey="};
     float observerLat{};
     float observerLon{};
@@ -36,5 +13,28 @@ private:
     int minVisibility{};
     int minElevation{};
 
+    bool operator == (const ConfigValues& configValues2)
+        {
+            return (this->apiKey == configValues2.apiKey &&
+                    this->observerLat == configValues2.observerLat &&
+                    this->observerLon == configValues2.observerLon &&
+                    this->observerAlt == configValues2.observerAlt &&
+                    this->searchRadius == configValues2.searchRadius &&
+                    this->seconds == configValues2.seconds &&
+                    this->days == configValues2.days &&
+                    this->minVisibility == configValues2.minVisibility &&
+                    this->minElevation == configValues2.minElevation);
+        }
+};
 
+class Config
+{
+public:
+    Config();
+    void read();    
+    const ConfigValues& getConfigValues();
+    
+private:
+    void setConfigValue(const std::string& option, const std::string& value);
+    ConfigValues configValues;
 };
