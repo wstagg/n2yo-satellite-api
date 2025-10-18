@@ -42,12 +42,13 @@ def update(frame):
     # sat_names.clear()
     
     # Get and plot new positions
-    satsAbove = dataReceiver.getSatellitesAbove(satelliteTracker.SatelliteCategory.ISS)
+    satsAbove = dataReceiver.getSatellitesAbove()
     print(satsAbove.transactionCount)
     for sat in satsAbove.satellitesAbove:
         xpt, ypt = m(sat.lon, sat.lat)
         plot, = m.plot(xpt, ypt, 'bo', markersize=8)
         sat_plots.append(plot)
+        print(sat.satName)
         #sat_names.append(text)
     
     return sat_plots
@@ -58,7 +59,7 @@ ani = animation.FuncAnimation(
     fig,
     update,
     init_func=init,
-    interval=36000,
+    interval=10000,
     blit=True
 )
 

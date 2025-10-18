@@ -10,6 +10,7 @@ struct ConfigValues
     float observerAlt{};
     int searchRadius{};
     int noradId{};
+    int satelliteCategory{};
     int seconds{};
     int days{};
     int minVisibility{};

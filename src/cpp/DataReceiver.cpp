@@ -37,13 +37,12 @@ ResponseData::SatelliteRadioPass DataReceiver::getSatelliteRadioPass(const int &
     return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, noradId);
 }
 
-// TODO satellite category should be in config file
-ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove(const SatelliteCategory &satelliteCategory)
+ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove()
 {
-    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, 0, satelliteCategory);
+    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, 0);
 }
 
-const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &noradId, const SatelliteCategory &satelliteCategory)
+const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &noradId)
 {
     auto apiRequestTemplate = config.getApiRequestTemplate(apiType);
 
@@ -77,7 +76,7 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &n
         }
         else if (word == "category_id") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(static_cast<int>(satelliteCategory)));
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().satelliteCategory));
         }
         else if (word == "seconds") 
         {
@@ -127,29 +126,4 @@ size_t DataReceiver::writeCallback(char *ptr, size_t size, size_t nmemb, void *u
     static_cast<DataReceiver*>(userdata)->dataString.append(s);
  
     return sizeTotal;
-}
-
-std::string_view DataReceiver::apiTypeToString(const ApiType apiType)
-{
-    switch (apiType)
-    {
-    case ApiType::GetTle:
-        return "tle";
-        break;
-    case ApiType::GetSatellitePositions:
-        return "positions";
-        break;
-case ApiType::GetVisualPasses:
-        return "visualpasses";
-        break;
-    case ApiType::GetRadioPasses:
-        return "radiopasses";
-        break;
-    case ApiType::WhatsUp:
-        return "above";
-        break;
-        default:
-        return {};
-        break;
-    }
 }

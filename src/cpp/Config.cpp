@@ -106,6 +106,11 @@ void Config::setConfigValue(const std::string& option, const std::string& value)
         configValues.noradId = std::stoi(value);
     }
 
+    else if(option == "SEARCH_CATEGORY")
+    {
+        configValues.satelliteCategory = std::stoi(value);
+    }
+
     else if(option == "SECONDS")
     {
         configValues.seconds = std::stoi(value);

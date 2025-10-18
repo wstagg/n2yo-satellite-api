@@ -19,35 +19,31 @@ public:
     ResponseData::SatellitePosition getSatellitePosition(const int& noradId);
     ResponseData::SatelliteVisualPass getSatelliteVisualPass(const int& noradId);
     ResponseData::SatelliteRadioPass getSatelliteRadioPass(const int& noradId);
-    ResponseData::SatellitesAbove getSatellitesAbove(const SatelliteCategory& satelliteCategory = 
-    SatelliteCategory::All);
+    ResponseData::SatellitesAbove getSatellitesAbove();
 
     
 private:
     template<typename T>
-    T callApi(const ApiType apiType, const int& noradId = 0, const SatelliteCategory& satelliteCategory = 
-    SatelliteCategory::All);    
-    const std::string createApiUrl(const ApiType apiType, const int &noradId, const SatelliteCategory &satelliteCategory);
+    T callApi(const ApiType apiType, const int& noradId = 0);    
+    const std::string createApiUrl(const ApiType apiType, const int &noradId);
     
     bool makeCurlRequest(std::string apiCall);
     static size_t writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata);
-    std::string_view apiTypeToString(const ApiType apiType);
     
     std::string dataString{};
     CURL* curl{nullptr};
-    std::string baseUrl{"https://api.n2yo.com/rest/v1/satellite/"};
     Config config;
 };
 
 template <typename T>
-inline T DataReceiver::callApi(const ApiType apiType, const int &noradId, const SatelliteCategory &satelliteCategory)
+inline T DataReceiver::callApi(const ApiType apiType, const int &noradId)
 {
     if (!dataString.empty())
     {
         dataString.clear();
     }
 
-    auto apiUrl = createApiUrl(apiType, noradId, satelliteCategory); 
+    auto apiUrl = createApiUrl(apiType, noradId); 
     
     if (makeCurlRequest(apiUrl))
     {
