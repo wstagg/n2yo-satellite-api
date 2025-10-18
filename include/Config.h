@@ -1,13 +1,15 @@
 #pragma once
 #include <string>
+#include "ApiType.h"
 
 struct ConfigValues
 {
-    std::string apiKey{"&apiKey="};
+    std::string apiKey{};
     float observerLat{};
     float observerLon{};
     float observerAlt{};
     int searchRadius{};
+    int noradId{};
     int seconds{};
     int days{};
     int minVisibility{};
@@ -27,14 +29,25 @@ struct ConfigValues
         }
 };
 
+struct ApiRequestTemplates
+{
+    std::string tle{};
+    std::string satellitePositions{};
+    std::string visualPasses{};
+    std::string radioPasses{};
+    std::string above{};
+};
+
 class Config
 {
 public:
     Config();
     void read();    
     const ConfigValues& getConfigValues();
+    std::string getApiRequestTemplate(const ApiType& apiType);
     
 private:
     void setConfigValue(const std::string& option, const std::string& value);
     ConfigValues configValues;
+    ApiRequestTemplates apiRequestTemplates;
 };

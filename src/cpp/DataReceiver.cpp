@@ -1,6 +1,6 @@
 #include "DataReceiver.h"
 #include <iostream>
-#include <format>
+#include <string>
 #include <variant>
 
 DataReceiver::DataReceiver(const Config& _config):
@@ -37,6 +37,7 @@ ResponseData::SatelliteRadioPass DataReceiver::getSatelliteRadioPass(const int &
     return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, noradId);
 }
 
+// TODO satellite category should be in config file
 ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove(const SatelliteCategory &satelliteCategory)
 {
     return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, 0, satelliteCategory);
@@ -44,73 +45,61 @@ ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove(const SatelliteCa
 
 const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &noradId, const SatelliteCategory &satelliteCategory)
 {
-    std::string apiUrl{baseUrl};
+    auto apiRequestTemplate = config.getApiRequestTemplate(apiType);
 
-    switch (apiType)
+    while (apiRequestTemplate.find('{') != std::string::npos && apiRequestTemplate.find('}') != std::string::npos) 
     {
-    case ApiType::GetTle:
-        apiUrl.append(std::format("{}/{}{}", 
-            apiTypeToString(apiType), 
-            noradId,
-            config.getConfigValues().apiKey)
-        );
-        break;
-    
-    case ApiType::GetSatellitePositions:
-        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            noradId,
-            config.getConfigValues().observerLat,
-            config.getConfigValues().observerLon,
-            config.getConfigValues().observerAlt,
-            config.getConfigValues().seconds,
-            config.getConfigValues().apiKey)
-        );
-        break;
+        auto openPos = apiRequestTemplate.find_first_of('{');
+        auto closePos = apiRequestTemplate.find_first_of('}', openPos);
+        auto bracketsSub = apiRequestTemplate.substr(openPos, (closePos + 1) - openPos);
+        auto word = bracketsSub.substr(1, bracketsSub.length());
+        word.pop_back();
 
-    case ApiType::GetVisualPasses:
-        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            noradId,
-            config.getConfigValues().observerLat,
-            config.getConfigValues().observerLon,
-            config.getConfigValues().observerAlt,
-            config.getConfigValues().days,
-            config.getConfigValues().minVisibility,
-            config.getConfigValues().apiKey)
-        );
-        break;  
-
-    case ApiType::GetRadioPasses:
-        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            noradId,
-            config.getConfigValues().observerLat,
-            config.getConfigValues().observerLon,
-            config.getConfigValues().observerAlt,
-            config.getConfigValues().days,
-            config.getConfigValues().minElevation,
-            config.getConfigValues().apiKey)
-        );
-        break;
-    
-    case ApiType::WhatsUp:
-        apiUrl.append(std::format("{}/{}/{}/{}/{}/{}{}", 
-            apiTypeToString(apiType),
-            config.getConfigValues().observerLat,
-            config.getConfigValues().observerLon,
-            config.getConfigValues().observerAlt,
-            config.getConfigValues().searchRadius,
-            static_cast<int>(satelliteCategory),
-            config.getConfigValues().apiKey)
-        );
-        break;  
-    
-    default:
-        break;
+        if(word == "id")
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos, std::to_string(noradId));
+        }
+        else if (word == "observer_lat") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1, std::to_string(config.getConfigValues().observerLat));
+        }
+        else if (word == "observer_lng") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos  - openPos  + 1, std::to_string(config.getConfigValues().observerLon));
+        }
+        else if (word == "observer_alt") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1, std::to_string(config.getConfigValues().observerAlt));
+        }
+        else if (word == "search_radius") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().searchRadius));
+        }
+        else if (word == "category_id") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(static_cast<int>(satelliteCategory)));
+        }
+        else if (word == "seconds") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().seconds));
+        }
+        else if (word == "days") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().days));
+        }
+        else if (word == "min_visibility") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().minVisibility));
+        }
+        else if (word == "min_elevation") 
+        {
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().minElevation));
+        }
     }
+    
+    apiRequestTemplate.append(config.getConfigValues().apiKey);
 
-    return apiUrl;
+    return apiRequestTemplate;
 }
 
 bool DataReceiver::makeCurlRequest(std::string apiCall)

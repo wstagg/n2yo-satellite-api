@@ -26,16 +26,7 @@ dataReceiver = satelliteTracker.DataReceiver(config)
 sat_plots = []
 
 def init():
-
-    satsAbove = dataReceiver.getSatellitesAbove(satelliteTracker.SatelliteCategory.ISS)
-    print(satsAbove.transactionCount)
-    for sat in satsAbove.satellitesAbove:
-        xpt, ypt = m(sat.lon, sat.lat)
-        plot, = m.plot(xpt, ypt, 'bo', markersize=8)
-        sat_plots.append(plot)
-        #sat_names.append(text)
-    
-    return sat_plots
+    return[]
 
 
 def update(frame):

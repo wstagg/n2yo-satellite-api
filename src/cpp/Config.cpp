@@ -54,12 +54,31 @@ const ConfigValues &Config::getConfigValues()
     return configValues;
 }
 
+std::string Config::getApiRequestTemplate(const ApiType &apiType)
+{
+    switch (apiType)
+    {
+    case ApiType::GetTle:
+        return apiRequestTemplates.tle;
+    case ApiType::GetSatellitePositions:
+        return apiRequestTemplates.satellitePositions;
+    case ApiType::GetVisualPasses:
+        return apiRequestTemplates.visualPasses;
+    case ApiType::GetRadioPasses:
+        return apiRequestTemplates.radioPasses;
+    case ApiType::WhatsUp:
+        return apiRequestTemplates.above;
+    default:
+        return {};
+    }
+}
+
 void Config::setConfigValue(const std::string& option, const std::string& value)
 {   
 
     if(option == "API_KEY")
     {
-        configValues.apiKey.append(value);
+        configValues.apiKey= value;
     }
 
     else if(option == "OBSERVER_LAT")
@@ -82,6 +101,11 @@ void Config::setConfigValue(const std::string& option, const std::string& value)
         configValues.searchRadius = std::stoi(value);
     }
 
+    else if(option == "NORAD_ID")
+    {
+        configValues.noradId = std::stoi(value);
+    }
+
     else if(option == "SECONDS")
     {
         configValues.seconds = std::stoi(value);
@@ -97,8 +121,28 @@ void Config::setConfigValue(const std::string& option, const std::string& value)
         configValues.minVisibility = std::stoi(value);
     }
 
-    else if(option == "MIN_ELEVATION")
+    else if(option == "API_TLE")
     {
-        configValues.minElevation = std::stoi(value);
+        apiRequestTemplates.tle = value;
+    }
+
+    else if(option == "API_SATELLITE_POSITIONS")
+    {
+        apiRequestTemplates.satellitePositions = value;
+    }
+
+    else if(option == "API_VISUAL_PASSES")
+    {
+        apiRequestTemplates.visualPasses = value;
+    }
+
+    else if(option == "API_RADIO_PASSES")
+    {
+        apiRequestTemplates.radioPasses = value;
+    }
+
+    else if(option == "API_ABOVE")
+    {
+        apiRequestTemplates.above = value;
     }
 }

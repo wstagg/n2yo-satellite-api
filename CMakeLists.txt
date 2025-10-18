@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20.0)
 
 project(satelliteTracker)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Set CMP0167 to OLD to use the legacy FindBoost module
@@ -29,24 +29,24 @@ target_link_libraries(satelliteTracker
 
 # Copy configuration file and directories
 add_custom_command(
-        TARGET satelliteTracker POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_SOURCE_DIR}/config.txt
-                ${CMAKE_CURRENT_BINARY_DIR}/config.txt)
+    TARGET satelliteTracker POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_SOURCE_DIR}/config.txt
+            ${CMAKE_CURRENT_BINARY_DIR}/config.txt)
 
 # Copy the .so to the Python source directory
 add_custom_command(
     TARGET satelliteTracker POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-    $<TARGET_FILE:satelliteTracker>
-    ${CMAKE_SOURCE_DIR}/src/python/satelliteTracker.so
+            $<TARGET_FILE:satelliteTracker>
+            ${CMAKE_SOURCE_DIR}/src/python/satelliteTracker.so
 )
 
 # Also copy config file to Python directory if needed
 add_custom_command(
     TARGET satelliteTracker POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-    ${CMAKE_SOURCE_DIR}/config.txt
-    ${CMAKE_SOURCE_DIR}/src/python/config.txt
+            ${CMAKE_SOURCE_DIR}/config.txt
+            ${CMAKE_SOURCE_DIR}/src/python/config.txt
 )
 
