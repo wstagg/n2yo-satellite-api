@@ -19,9 +19,15 @@ m.drawmeridians(np.arange(0., 360., 60.))
 m.drawmapboundary(fill_color='aqua')
 
 config = satelliteTracker.Config()
-config.read()
+
+config.read("config.txt")
 
 dataReceiver = satelliteTracker.DataReceiver(config)
+
+tle = dataReceiver.getTle()
+
+print(tle.satId)
+print(tle.tle)
 
 sat_plots = []
 

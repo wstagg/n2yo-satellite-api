@@ -28,7 +28,7 @@ BOOST_PYTHON_MODULE(satelliteTracker)
         .def("getConfigValues", &Config::getConfigValues, boost::python::return_value_policy<boost::python::reference_existing_object>());
 
     // DataReceiver
-    boost::python::class_<DataReceiver>("DataReceiver", boost::python::init<const Config&>())
+    boost::python::class_<DataReceiver>("DataReceiver", boost::python::init<Config&>())
         .def("getTle", &DataReceiver::getTle)
         .def("getSatellitePosition", &DataReceiver::getSatellitePosition)
         .def("getSatelliteVisualPass", &DataReceiver::getSatelliteVisualPass)

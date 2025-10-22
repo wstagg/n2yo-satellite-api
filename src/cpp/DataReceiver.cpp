@@ -1,9 +1,8 @@
 #include "DataReceiver.h"
 #include <iostream>
 #include <string>
-#include <variant>
 
-DataReceiver::DataReceiver(const Config& _config):
+DataReceiver::DataReceiver(Config& _config):
 config{_config}
 {
     curl = curl_easy_init();
@@ -17,32 +16,32 @@ DataReceiver::~DataReceiver()
     }
 }
 
-ResponseData::Tle DataReceiver::getTle(const int &noradId)
+ResponseData::Tle DataReceiver::getTle()
 {
-    return callApi<ResponseData::Tle>(ApiType::GetTle, noradId);
+    return callApi<ResponseData::Tle>(ApiType::GetTle);
 }
 
-ResponseData::SatellitePosition DataReceiver::getSatellitePosition(const int &noradId)
+ResponseData::SatellitePosition DataReceiver::getSatellitePosition()
 {
-    return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions, noradId);
+    return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions);
 }
 
-ResponseData::SatelliteVisualPass DataReceiver::getSatelliteVisualPass(const int &noradId)
+ResponseData::SatelliteVisualPass DataReceiver::getSatelliteVisualPass()
 {
-    return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses, noradId);
+    return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses);
 }
 
-ResponseData::SatelliteRadioPass DataReceiver::getSatelliteRadioPass(const int &noradId)
+ResponseData::SatelliteRadioPass DataReceiver::getSatelliteRadioPass()
 {
-    return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, noradId);
+    return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses);
 }
 
 ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove()
 {
-    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, 0);
+    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp);
 }
 
-const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &noradId)
+const std::string DataReceiver::createApiUrl(const ApiType apiType)
 {
     auto apiRequestTemplate = config.getApiRequestTemplate(apiType);
 
@@ -56,7 +55,7 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &n
 
         if(word == "id")
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos, std::to_string(noradId));
+            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1, std::to_string(config.getConfigValues().noradId));
         }
         else if (word == "observer_lat") 
         {
@@ -101,22 +100,22 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType, const int &n
     return apiRequestTemplate;
 }
 
-bool DataReceiver::makeCurlRequest(std::string apiCall)
+int DataReceiver::makeCurlRequest(const std::string& apiCallUrl)
 {
     if (!curl) 
     {
-        return false;
+        std::cout << "curl nullptr" << std::endl;
+        return -1;
     }
     
     CURLcode code{};    
-    code = curl_easy_setopt(curl, CURLOPT_URL, apiCall.c_str());
+    code = curl_easy_setopt(curl, CURLOPT_URL, apiCallUrl.c_str());
     code = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, DataReceiver::writeCallback);
     code = curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
     code = curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
-    CURLcode res = curl_easy_perform(curl);
-    
-    return res == CURLE_OK;
+    CURLcode res = curl_easy_perform(curl);    
+    return res;
 }
 
 size_t DataReceiver::writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata)

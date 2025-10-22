@@ -43,12 +43,12 @@ class Config
 {
 public:
     Config();
-    void read();    
+    bool read(const std::string& filePath);    
     const ConfigValues& getConfigValues();
     std::string getApiRequestTemplate(const ApiType& apiType);
     
 private:
-    void setConfigValue(const std::string& option, const std::string& value);
+    void setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet);
     ConfigValues configValues;
     ApiRequestTemplates apiRequestTemplates;
 };

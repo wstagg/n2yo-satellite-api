@@ -6,22 +6,29 @@ Config::Config()
 {
 }
 
-void Config::read()
+bool Config::read(const std::string& filePath)
 {
     std::fstream f{};
 
-    f.open("config.txt", std::ios_base::in);
+    f.open(filePath, std::ios_base::in);
 
     if(!f.is_open())
     {
-        throw std::runtime_error("Cannot open config.txt file");
+        std::cout << "Cannot open config.txt file - " << filePath << std::endl;
+        return false;
     }
 
     std::string line{};
+
+    int totalOptionsFound{};
+    int totalConfigValuesSet{};
     
     while (std::getline(f, line))
     {
-        if(line.empty()) continue;
+        if(line.empty())
+        {
+            continue;
+        }
         
         if (line.front() == '#')
         {
@@ -45,8 +52,12 @@ void Config::read()
         auto option = line.substr(0 ,equalPos);
         auto value = line.substr(equalPos + 1);
 
-        setConfigValue(option, value);
+        ++totalOptionsFound;
+
+        setConfigValue(option, value, totalConfigValuesSet);
     }
+
+    return totalOptionsFound == totalConfigValuesSet;
 }
 
 const ConfigValues &Config::getConfigValues()
@@ -73,81 +84,134 @@ std::string Config::getApiRequestTemplate(const ApiType &apiType)
     }
 }
 
-void Config::setConfigValue(const std::string& option, const std::string& value)
-{   
-
+void Config::setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet)
+{
     if(option == "API_KEY")
     {
-        configValues.apiKey= value;
+        if (!value.empty())
+        {
+            configValues.apiKey= value;
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "OBSERVER_LAT")
     {
-        configValues.observerLat = std::stof(value);
+        if (!value.empty())
+        {
+            configValues.observerLat = std::stof(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "OBSERVER_LON")
     {
-        configValues.observerLon = std::stof(value);  
+        if (!value.empty())
+        {
+            configValues.observerLon = std::stof(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "OBSERVER_ALT")
     {
-        configValues.observerAlt = std::stof(value);
+        if (!value.empty())
+        {
+            configValues.observerAlt = std::stof(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "SEARCH_RAD")
     {
-        configValues.searchRadius = std::stoi(value);
+        if (!value.empty())
+        {
+            configValues.searchRadius = std::stoi(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "NORAD_ID")
     {
-        configValues.noradId = std::stoi(value);
+        if (!value.empty())
+        {
+            configValues.noradId = std::stoi(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "SEARCH_CATEGORY")
     {
-        configValues.satelliteCategory = std::stoi(value);
+        if (!value.empty())
+        {
+            configValues.satelliteCategory = std::stoi(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "SECONDS")
     {
-        configValues.seconds = std::stoi(value);
+        if (!value.empty())
+        {
+            configValues.seconds = std::stoi(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "DAYS")
     {
-        configValues.days = std::stoi(value);
+        if (!value.empty())
+        {
+            configValues.days = std::stoi(value);
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "MIN_VISIBILITY")
     {
-        configValues.minVisibility = std::stoi(value);
+        if (!value.empty())
+        {
+            configValues.minVisibility = std::stoi(value);
+            ++totalConfigValuesSet;
+        }
     }
-
+    else if(option == "MIN_ELEVATION")
+    {
+        if (!value.empty())
+        {
+            configValues.minElevation = std::stoi(value);
+            ++totalConfigValuesSet;
+        }
+    }
     else if(option == "API_TLE")
     {
-        apiRequestTemplates.tle = value;
+        if (!value.empty())
+        {
+            apiRequestTemplates.tle = value;
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "API_SATELLITE_POSITIONS")
     {
-        apiRequestTemplates.satellitePositions = value;
+        if (!value.empty())
+        {
+            apiRequestTemplates.satellitePositions = value;
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "API_VISUAL_PASSES")
     {
-        apiRequestTemplates.visualPasses = value;
+        if (!value.empty())
+        {
+            apiRequestTemplates.visualPasses = value;
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "API_RADIO_PASSES")
     {
-        apiRequestTemplates.radioPasses = value;
+        if (!value.empty())
+        {
+            apiRequestTemplates.radioPasses = value;
+            ++totalConfigValuesSet;
+        }
     }
-
     else if(option == "API_ABOVE")
     {
-        apiRequestTemplates.above = value;
+        if (!value.empty())
+        {
+            apiRequestTemplates.above = value;
+            ++totalConfigValuesSet;
+        }
     }
 }

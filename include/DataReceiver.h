@@ -2,7 +2,7 @@
 #include <curl/curl.h>
 #include <memory>
 #include <string>
-#include <format>
+#include <iostream>
 
 #include "Config.h" 
 #include "SatelliteCategories.h"
@@ -12,22 +12,21 @@
 class DataReceiver
 {
 public:
-    DataReceiver(const Config& _config);
+    DataReceiver(Config& _config);
     ~DataReceiver();
 
-    ResponseData::Tle getTle(const int &noradId);
-    ResponseData::SatellitePosition getSatellitePosition(const int& noradId);
-    ResponseData::SatelliteVisualPass getSatelliteVisualPass(const int& noradId);
-    ResponseData::SatelliteRadioPass getSatelliteRadioPass(const int& noradId);
+    ResponseData::Tle getTle();
+    ResponseData::SatellitePosition getSatellitePosition();
+    ResponseData::SatelliteVisualPass getSatelliteVisualPass();
+    ResponseData::SatelliteRadioPass getSatelliteRadioPass();
     ResponseData::SatellitesAbove getSatellitesAbove();
 
-    
 private:
     template<typename T>
-    T callApi(const ApiType apiType, const int& noradId = 0);    
-    const std::string createApiUrl(const ApiType apiType, const int &noradId);
+    T callApi(const ApiType apiType);    
+    const std::string createApiUrl(const ApiType apiType);
     
-    bool makeCurlRequest(std::string apiCall);
+    int makeCurlRequest(const std::string& apiCallUrl);
     static size_t writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata);
     
     std::string dataString{};
@@ -36,20 +35,26 @@ private:
 };
 
 template <typename T>
-inline T DataReceiver::callApi(const ApiType apiType, const int &noradId)
+inline T DataReceiver::callApi(const ApiType apiType)
 {
     if (!dataString.empty())
     {
         dataString.clear();
     }
 
-    auto apiUrl = createApiUrl(apiType, noradId); 
+    auto apiUrl = createApiUrl(apiType);
     
-    if (makeCurlRequest(apiUrl))
+    auto res = makeCurlRequest(apiUrl);
+    
+    if (res == CURLcode::CURLE_OK)
     {
         JsonParser jsonParser;
         T responseData{};
         return jsonParser.parse(apiType, dataString, responseData);
+    }
+    else
+    {
+        std::cout << "Failed to make curl request, curl code: " << res << std::endl;
     }
 
     return T{};
