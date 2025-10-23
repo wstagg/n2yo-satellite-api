@@ -9,7 +9,7 @@
 #include "SatelliteCategories.h"
 
 
-BOOST_PYTHON_MODULE(satelliteTracker)
+BOOST_PYTHON_MODULE(n2yoSatelliteApi)
 {
     // Config
     boost::python::class_<ConfigValues>("ConfigValues")
