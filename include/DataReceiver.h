@@ -50,12 +50,21 @@ inline T DataReceiver::callApi(const ApiType apiType)
     {
         JsonParser jsonParser;
         T responseData{};
-        return jsonParser.parse(apiType, dataString, responseData);
+
+        try
+        {
+            jsonParser.parse(apiType, dataString, responseData);
+            return responseData;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+            return T{};
+        }
     }
     else
     {
         std::cout << "Failed to make curl request, curl code: " << res << std::endl;
+        return T{};
     }
-
-    return T{};
 }

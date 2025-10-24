@@ -14,8 +14,7 @@ bool Config::read(const std::string& filePath)
 
     if(!f.is_open())
     {
-        std::cout << "Cannot open config.txt file - " << filePath << std::endl;
-        return false;
+        throw std::runtime_error("Cannot open config.txt file - " + filePath);
     }
 
     std::string line{};

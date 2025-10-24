@@ -10,7 +10,7 @@ BOOST_AUTO_TEST_CASE(testConfigReadValidFilePath)
 BOOST_AUTO_TEST_CASE(testConfigReadInvalidFilePath)
 {
     Config config{};
-    BOOST_TEST(config.read("") == false);
+    BOOST_CHECK_THROW(config.read(""), std::runtime_error);
 };
 
 BOOST_AUTO_TEST_CASE(testConfigMissingConfigFileValue)

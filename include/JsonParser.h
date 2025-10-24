@@ -10,7 +10,7 @@ public:
     JsonParser() = default;
 
     template<typename T>
-    T parse(const ApiType &apiType, const std::string_view& dataString, T& responseData);
+    void parse(const ApiType &apiType, const std::string_view& dataString, T& responseData);
 
 private:
     const ApiType apiType{};
@@ -24,7 +24,7 @@ private:
 };
 
 template <typename T>
-inline T JsonParser::parse(const ApiType &apiType, const std::string_view& dataString, T& responseData)
+inline void JsonParser::parse(const ApiType &apiType, const std::string_view& dataString, T& responseData)
 {
     if constexpr(std::is_same_v<T, ResponseData::Tle>)
     {
@@ -46,5 +46,4 @@ inline T JsonParser::parse(const ApiType &apiType, const std::string_view& dataS
     {
         parseWhatsAbove(dataString, responseData);
     }
-    return responseData;
 }
