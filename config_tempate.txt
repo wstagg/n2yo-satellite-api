@@ -27,10 +27,3 @@ MIN_VISIBILITY = 1
 
 # The minimum elevation acceptable for the highest altitude point of the pass (degrees)
 MIN_ELEVATION = 40
-
-# API request templates
-API_TLE = https://api.n2yo.com/rest/v1/satellite/tle/{id}/&apiKey= 
-API_SATELLITE_POSITIONS = https://api.n2yo.com/rest/v1/satellite/positions/{id}/{observer_lat}/{observer_lng}/{observer_alt}/{seconds}/&apiKey= 
-API_VISUAL_PASSES = https://api.n2yo.com/rest/v1/satellite/visualpasses/{id}/{observer_lat}/{observer_lng}/{observer_alt}/{days}/{min_visibility}/&apiKey=
-API_RADIO_PASSES = https://api.n2yo.com/rest/v1/satellite/radiopasses/{id}/{observer_lat}/{observer_lng}/{observer_alt}/{days}/{min_elevation}/&apiKey=
-API_ABOVE = https://api.n2yo.com/rest/v1/satellite/above/{observer_lat}/{observer_lng}/{observer_alt}/{search_radius}/{category_id}/&apiKey= 

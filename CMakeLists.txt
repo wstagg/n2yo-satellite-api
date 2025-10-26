@@ -50,6 +50,7 @@ include_directories(${CMAKE_SOURCE_DIR}/tests/fixtures)
 
 add_executable(tests
     tests/cpp/SatelliteTrackerTestsMain.cpp
+    tests/cpp/DataReceiverUsingConfigFileTests.cpp
     tests/cpp/DataReceiverTests.cpp
     tests/cpp/ConfigTests.cpp
     cpp/DataReceiver.cpp

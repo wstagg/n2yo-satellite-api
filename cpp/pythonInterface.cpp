@@ -11,6 +11,66 @@
 
 BOOST_PYTHON_MODULE(n2yoSatelliteApi)
 {
+    // Satellite categories
+    boost::python::enum_<SatelliteCategory>("SatelliteCategory")
+    .value("All", SatelliteCategory::All)
+    .value("Brightest", SatelliteCategory::Brightest)
+    .value("ISS", SatelliteCategory::ISS)
+    .value("Weather", SatelliteCategory::Weather)
+    .value("NOAA", SatelliteCategory::NOAA)
+    .value("GOES", SatelliteCategory::GOES)
+    .value("EarthResources", SatelliteCategory::EarthResources)
+    .value("SearchAndRescue", SatelliteCategory::SearchAndRescue)
+    .value("DisasterMonitoring", SatelliteCategory::DisasterMonitoring)
+    .value("TrackingAndDataRelaySatelliteSystem", SatelliteCategory::TrackingAndDataRelaySatelliteSystem)
+    .value("Geostationary", SatelliteCategory::Geostationary)
+    .value("Intelsat", SatelliteCategory::Intelsat)
+    .value("Gorizont", SatelliteCategory::Gorizont)
+    .value("Raduga", SatelliteCategory::Raduga)
+    .value("Molniya", SatelliteCategory::Molniya)
+    .value("Iridium", SatelliteCategory::Iridium)
+    .value("Orbcomm", SatelliteCategory::Orbcomm)
+    .value("Globalstar", SatelliteCategory::Globalstar)
+    .value("AmateurRadio", SatelliteCategory::AmateurRadio)
+    .value("Experimental", SatelliteCategory::Experimental)
+    .value("GPSOperational", SatelliteCategory::GPSOperational)
+    .value("GlonassOperational", SatelliteCategory::GlonassOperational)
+    .value("Galileo", SatelliteCategory::Galileo)
+    .value("SatelliteBasedAugmentationSystem", SatelliteCategory::SatelliteBasedAugmentationSystem)
+    .value("NavyNavigationSatelliteSystem", SatelliteCategory::NavyNavigationSatelliteSystem)
+    .value("RussianLEONavigation", SatelliteCategory::RussianLEONavigation)
+    .value("SpaceAndEarthScience", SatelliteCategory::SpaceAndEarthScience)
+    .value("Geodetic", SatelliteCategory::Geodetic)
+    .value("Engineering", SatelliteCategory::Engineering)
+    .value("Education", SatelliteCategory::Education)
+    .value("Military", SatelliteCategory::Military)
+    .value("RadarCalibration", SatelliteCategory::RadarCalibration)
+    .value("CubeSats", SatelliteCategory::CubeSats)
+    .value("XMandSirius", SatelliteCategory::XMandSirius)
+    .value("TV", SatelliteCategory::TV)
+    .value("BeidouNavigationSystem", SatelliteCategory::BeidouNavigationSystem)
+    .value("Yaogan", SatelliteCategory::Yaogan)
+    .value("WestfordNeedles", SatelliteCategory::WestfordNeedles)
+    .value("Parus", SatelliteCategory::Parus)
+    .value("Strela", SatelliteCategory::Strela)
+    .value("Gonets", SatelliteCategory::Gonets)
+    .value("Tsiklon", SatelliteCategory::Tsiklon)
+    .value("Tsikada", SatelliteCategory::Tsikada)
+    .value("O3BNetworks", SatelliteCategory::O3BNetworks)
+    .value("Tselina", SatelliteCategory::Tselina)
+    .value("Celestis", SatelliteCategory::Celestis)
+    .value("IRNSS", SatelliteCategory::IRNSS)
+    .value("QZSS", SatelliteCategory::QZSS)
+    .value("Flock", SatelliteCategory::Flock)
+    .value("Lemur", SatelliteCategory::Lemur)
+    .value("GPSConstellation", SatelliteCategory::GPSConstellation)
+    .value("GlonassConstellation", SatelliteCategory::GlonassConstellation)
+    .value("Starlink", SatelliteCategory::Starlink)
+    .value("OneWeb", SatelliteCategory::OneWeb)
+    .value("ChineseSpaceStation", SatelliteCategory::ChineseSpaceStation)
+    .value("Qianfan", SatelliteCategory::Qianfan)
+    .value("Kuiper", SatelliteCategory::Kuiper);
+
     // Config
     boost::python::class_<ConfigValues>("ConfigValues")
         .def_readonly("apiKey", &ConfigValues::apiKey)
@@ -27,14 +87,61 @@ BOOST_PYTHON_MODULE(n2yoSatelliteApi)
         .def("read", &Config::read)
         .def("getConfigValues", &Config::getConfigValues, boost::python::return_value_policy<boost::python::reference_existing_object>());
 
+    // DataReceiver function overloads
+    ResponseData::Tle (DataReceiver::*getTleNoArgs)() = &DataReceiver::getTle;
+    ResponseData::Tle (DataReceiver::*getTleWithArgs)(const std::string&, const int&) = &DataReceiver::getTle;
+
+    ResponseData::SatellitePosition (DataReceiver::*getSatellitePositionNoArgs)() = &DataReceiver::getSatellitePosition;
+    ResponseData::SatellitePosition (DataReceiver::*getSatellitePositionWithArgs)(
+        const std::string&,
+        const int&,
+        const float&,
+        const float&,
+        const float&,
+        const int&) = &DataReceiver::getSatellitePosition;
+
+    ResponseData::SatelliteVisualPass (DataReceiver::*getSatelliteVisualPassNoArgs)() = &DataReceiver::getSatelliteVisualPass;
+    ResponseData::SatelliteVisualPass (DataReceiver::*getSatelliteVisualWithArgs)(
+        const std::string&,
+        const int&,
+        const float&,
+        const float&,
+        const float&,
+        const int&,
+        const int&) = &DataReceiver::getSatelliteVisualPass;
+
+    ResponseData::SatelliteRadioPass (DataReceiver::*getSatelliteRadioPassNoArgs)() = &DataReceiver::getSatelliteRadioPass;
+    ResponseData::SatelliteRadioPass (DataReceiver::*getSatelliteRadioWithArgs)(
+        const std::string&,
+        const int&,
+        const float&,
+        const float&,
+        const float&,
+        const int&,
+        const int&) = &DataReceiver::getSatelliteRadioPass;
+
+    ResponseData::SatellitesAbove (DataReceiver::*getSatellitesAboveNoArgs)() = &DataReceiver::getSatellitesAbove;
+    ResponseData::SatellitesAbove (DataReceiver::*getSatellitesAboveWithArgs)(
+        const std::string&,
+        const float&,
+        const float&,
+        const float&,
+        const int&,
+        const SatelliteCategory&) = &DataReceiver::getSatellitesAbove;
+
     // DataReceiver
     boost::python::class_<DataReceiver>("DataReceiver", boost::python::init<Config&>())
-        .def("getTle", &DataReceiver::getTle)
-        .def("getSatellitePosition", &DataReceiver::getSatellitePosition)
-        .def("getSatelliteVisualPass", &DataReceiver::getSatelliteVisualPass)
-        .def("getSatelliteRadioPass", &DataReceiver::getSatelliteRadioPass)
-        .def("getSatellitesAbove", &DataReceiver::getSatellitesAbove);
-    
+        .def("getTle", getTleNoArgs)
+        .def("getTle", getTleWithArgs)
+        .def("getSatellitePosition", getSatellitePositionNoArgs)
+        .def("getSatellitePosition", getSatellitePositionWithArgs)
+        .def("getSatelliteVisualPass", getSatelliteVisualPassNoArgs)
+        .def("getSatelliteVisualPass", getSatelliteVisualWithArgs)
+        .def("getSatelliteRadioPass", getSatelliteRadioPassNoArgs)
+        .def("getSatelliteRadioPass", getSatelliteRadioWithArgs)
+        .def("getSatellitesAbove", getSatellitesAboveNoArgs)
+        .def("getSatellitesAbove", getSatellitesAboveWithArgs);
+
     // Response Data
     boost::python::class_<ResponseData::Tle>("Tle")
         .def_readonly("satId", &ResponseData::Tle::satId)
@@ -126,64 +233,4 @@ BOOST_PYTHON_MODULE(n2yoSatelliteApi)
         .def_readonly("transactionCount", &ResponseData::SatellitesAbove::transactionCount)
         .def_readonly("satelliteCount", &ResponseData::SatellitesAbove::satelliteCount)
         .def_readonly("satellitesAbove", &ResponseData::SatellitesAbove::satellitesAbove);
-
-    // Satellite categories
-    boost::python::enum_<SatelliteCategory>("SatelliteCategory")
-    .value("All", SatelliteCategory::All)
-    .value("Brightest", SatelliteCategory::Brightest)
-    .value("ISS", SatelliteCategory::ISS)
-    .value("Weather", SatelliteCategory::Weather)
-    .value("NOAA", SatelliteCategory::NOAA)
-    .value("GOES", SatelliteCategory::GOES)
-    .value("EarthResources", SatelliteCategory::EarthResources)
-    .value("SearchAndRescue", SatelliteCategory::SearchAndRescue)
-    .value("DisasterMonitoring", SatelliteCategory::DisasterMonitoring)
-    .value("TrackingAndDataRelaySatelliteSystem", SatelliteCategory::TrackingAndDataRelaySatelliteSystem)
-    .value("Geostationary", SatelliteCategory::Geostationary)
-    .value("Intelsat", SatelliteCategory::Intelsat)
-    .value("Gorizont", SatelliteCategory::Gorizont)
-    .value("Raduga", SatelliteCategory::Raduga)
-    .value("Molniya", SatelliteCategory::Molniya)
-    .value("Iridium", SatelliteCategory::Iridium)
-    .value("Orbcomm", SatelliteCategory::Orbcomm)
-    .value("Globalstar", SatelliteCategory::Globalstar)
-    .value("AmateurRadio", SatelliteCategory::AmateurRadio)
-    .value("Experimental", SatelliteCategory::Experimental)
-    .value("GPSOperational", SatelliteCategory::GPSOperational)
-    .value("GlonassOperational", SatelliteCategory::GlonassOperational)
-    .value("Galileo", SatelliteCategory::Galileo)
-    .value("SatelliteBasedAugmentationSystem", SatelliteCategory::SatelliteBasedAugmentationSystem)
-    .value("NavyNavigationSatelliteSystem", SatelliteCategory::NavyNavigationSatelliteSystem)
-    .value("RussianLEONavigation", SatelliteCategory::RussianLEONavigation)
-    .value("SpaceAndEarthScience", SatelliteCategory::SpaceAndEarthScience)
-    .value("Geodetic", SatelliteCategory::Geodetic)
-    .value("Engineering", SatelliteCategory::Engineering)
-    .value("Education", SatelliteCategory::Education)
-    .value("Military", SatelliteCategory::Military)
-    .value("RadarCalibration", SatelliteCategory::RadarCalibration)
-    .value("CubeSats", SatelliteCategory::CubeSats)
-    .value("XMandSirius", SatelliteCategory::XMandSirius)
-    .value("TV", SatelliteCategory::TV)
-    .value("BeidouNavigationSystem", SatelliteCategory::BeidouNavigationSystem)
-    .value("Yaogan", SatelliteCategory::Yaogan)
-    .value("WestfordNeedles", SatelliteCategory::WestfordNeedles)
-    .value("Parus", SatelliteCategory::Parus)
-    .value("Strela", SatelliteCategory::Strela)
-    .value("Gonets", SatelliteCategory::Gonets)
-    .value("Tsiklon", SatelliteCategory::Tsiklon)
-    .value("Tsikada", SatelliteCategory::Tsikada)
-    .value("O3BNetworks", SatelliteCategory::O3BNetworks)
-    .value("Tselina", SatelliteCategory::Tselina)
-    .value("Celestis", SatelliteCategory::Celestis)
-    .value("IRNSS", SatelliteCategory::IRNSS)
-    .value("QZSS", SatelliteCategory::QZSS)
-    .value("Flock", SatelliteCategory::Flock)
-    .value("Lemur", SatelliteCategory::Lemur)
-    .value("GPSConstellation", SatelliteCategory::GPSConstellation)
-    .value("GlonassConstellation", SatelliteCategory::GlonassConstellation)
-    .value("Starlink", SatelliteCategory::Starlink)
-    .value("OneWeb", SatelliteCategory::OneWeb)
-    .value("ChineseSpaceStation", SatelliteCategory::ChineseSpaceStation)
-    .value("Qianfan", SatelliteCategory::Qianfan)
-    .value("Kuiper", SatelliteCategory::Kuiper);
 }

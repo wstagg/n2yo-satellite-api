@@ -2,6 +2,11 @@
 #include <iostream>
 #include <string>
 
+DataReceiver::DataReceiver()
+{
+    curl = curl_easy_init();
+}
+
 DataReceiver::DataReceiver(Config& _config):
 config{_config}
 {
@@ -18,32 +23,144 @@ DataReceiver::~DataReceiver()
 
 ResponseData::Tle DataReceiver::getTle()
 {
-    return callApi<ResponseData::Tle>(ApiType::GetTle);
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = config.getConfigValues().apiKey;
+    apiCallParams.noradId = config.getConfigValues().noradId;
+    return callApi<ResponseData::Tle>(ApiType::GetTle, apiCallParams);
+}
+
+ResponseData::Tle DataReceiver::getTle(const std::string& apiKey, const int& noradId)
+{
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = apiKey;
+    apiCallParams.noradId = noradId;
+    return callApi<ResponseData::Tle>(ApiType::GetTle, apiCallParams);
 }
 
 ResponseData::SatellitePosition DataReceiver::getSatellitePosition()
 {
-    return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions);
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = config.getConfigValues().apiKey;
+    apiCallParams.noradId = config.getConfigValues().noradId;
+    apiCallParams.observerLat = config.getConfigValues().observerLat;
+    apiCallParams.observerLon = config.getConfigValues().observerLon;
+    apiCallParams.observerAlt = config.getConfigValues().observerAlt;
+    apiCallParams.seconds = config.getConfigValues().seconds;
+    return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions, apiCallParams);
+}
+
+ResponseData::SatellitePosition DataReceiver::getSatellitePosition(
+    const std::string& apiKey,
+    const int& noradId,
+    const float& observerLat,
+    const float& observerLon,
+    const float& observerAlt,
+    const int& seconds)
+{
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = apiKey;
+    apiCallParams.noradId = noradId;
+    apiCallParams.observerLat = observerLat;
+    apiCallParams.observerLon = observerLon;
+    apiCallParams.observerAlt = observerAlt;
+    apiCallParams.seconds = seconds;
+    return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions, apiCallParams);
 }
 
 ResponseData::SatelliteVisualPass DataReceiver::getSatelliteVisualPass()
 {
-    return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses);
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = config.getConfigValues().apiKey;
+    apiCallParams.noradId = config.getConfigValues().noradId;
+    apiCallParams.observerLat = config.getConfigValues().observerLat;
+    apiCallParams.observerLon = config.getConfigValues().observerLon;
+    apiCallParams.observerAlt = config.getConfigValues().observerAlt;
+    apiCallParams.days = config.getConfigValues().days;
+    apiCallParams.minimumVisibility = config.getConfigValues().minVisibility;
+    return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses, apiCallParams);
+}
+
+ResponseData::SatelliteVisualPass DataReceiver::getSatelliteVisualPass(
+    const std::string& apiKey,
+    const int& noradId,
+    const float& observerLat,
+    const float& observerLon,
+    const float& observerAlt,
+    const int& days,
+    const int& minimumVisibility)
+{
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = apiKey;
+    apiCallParams.noradId = noradId;
+    apiCallParams.observerLat = observerLat;
+    apiCallParams.observerLon = observerLon;
+    apiCallParams.observerAlt = observerAlt;
+    apiCallParams.days = days;
+    apiCallParams.minimumVisibility = minimumVisibility;
+    return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses, apiCallParams);
 }
 
 ResponseData::SatelliteRadioPass DataReceiver::getSatelliteRadioPass()
 {
-    return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses);
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = config.getConfigValues().apiKey;
+    apiCallParams.noradId = config.getConfigValues().noradId;
+    apiCallParams.observerLat = config.getConfigValues().observerLat;
+    apiCallParams.observerLon = config.getConfigValues().observerLon;
+    apiCallParams.observerAlt = config.getConfigValues().observerAlt;
+    apiCallParams.days = config.getConfigValues().days;
+    apiCallParams.minimumElevation = config.getConfigValues().minElevation;
+    return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, apiCallParams);
+}
+
+ResponseData::SatelliteRadioPass DataReceiver::getSatelliteRadioPass(const std::string& apiKey, const int& noradId,
+    const float& observerLat, const float& observerLon, const float& observerAlt, const int& days,
+    const int& minimumElevation)
+{
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = apiKey;
+    apiCallParams.noradId = noradId;
+    apiCallParams.observerLat = observerLat;
+    apiCallParams.observerLon = observerLon;
+    apiCallParams.observerAlt = observerAlt;
+    apiCallParams.days = days;
+    apiCallParams.minimumElevation = minimumElevation;
+    return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, apiCallParams);
 }
 
 ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove()
 {
-    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp);
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = config.getConfigValues().apiKey;
+    apiCallParams.observerLat = config.getConfigValues().observerLat;
+    apiCallParams.observerLon = config.getConfigValues().observerLon;
+    apiCallParams.observerAlt = config.getConfigValues().observerAlt;
+    apiCallParams.searchCategory = config.getConfigValues().satelliteCategory;
+    apiCallParams.searchRadius = config.getConfigValues().searchRadius;
+    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, apiCallParams);
 }
 
-const std::string DataReceiver::createApiUrl(const ApiType apiType)
+ResponseData::SatellitesAbove DataReceiver::getSatellitesAbove(
+    const std::string& apiKey,
+    const float& observerLat,
+    const float& observerLon,
+    const float& observerAlt,
+    const int& searchRadius,
+    const SatelliteCategory& satelliteCategory)
 {
-    auto apiRequestTemplate = config.getApiRequestTemplate(apiType);
+    ApiCallParameters apiCallParams;
+    apiCallParams.apiKey = apiKey;
+    apiCallParams.observerLat = observerLat;
+    apiCallParams.observerLon = observerLon;
+    apiCallParams.observerAlt = observerAlt;
+    apiCallParams.searchRadius = searchRadius;
+    apiCallParams.searchCategory = static_cast<int>(satelliteCategory);
+    return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, apiCallParams);
+}
+
+const std::string DataReceiver::createApiUrl(const ApiType apiType, const ApiCallParameters& apiCallParameters)
+{
+    auto apiRequestTemplate = getApiRequestTemplate(apiType);
 
     while (apiRequestTemplate.find('{') != std::string::npos && apiRequestTemplate.find('}') != std::string::npos) 
     {
@@ -55,47 +172,88 @@ const std::string DataReceiver::createApiUrl(const ApiType apiType)
 
         if(word == "id")
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1, std::to_string(config.getConfigValues().noradId));
+            if (apiCallParameters.noradId.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1,
+                                 std::to_string(apiCallParameters.noradId.value()));
+            }
         }
         else if (word == "observer_lat") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1, std::to_string(config.getConfigValues().observerLat));
+            if (apiCallParameters.observerLat.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1,
+                                 std::to_string(apiCallParameters.observerLat.value()));
+            }
         }
         else if (word == "observer_lng") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos  - openPos  + 1, std::to_string(config.getConfigValues().observerLon));
+            if (apiCallParameters.observerLon.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos  - openPos  + 1,
+                                 std::to_string(apiCallParameters.observerLon.value()));
+            }
         }
-        else if (word == "observer_alt") 
+        else if (word == "observer_alt")
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1, std::to_string(config.getConfigValues().observerAlt));
+            if (apiCallParameters.observerAlt.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos  + 1,
+                                 std::to_string(apiCallParameters.observerAlt.value()));
+            }
         }
         else if (word == "search_radius") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().searchRadius));
+            if (apiCallParameters.searchRadius.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1,
+                                 std::to_string(apiCallParameters.searchRadius.value()));
+            }
         }
         else if (word == "category_id") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().satelliteCategory));
+            if (apiCallParameters.searchCategory.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1,
+                                 std::to_string(apiCallParameters.searchCategory.value()));
+            }
         }
         else if (word == "seconds") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().seconds));
+            if (apiCallParameters.seconds.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1,
+                                 std::to_string(apiCallParameters.seconds.value()));
+            }
         }
         else if (word == "days") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().days));
+            if (apiCallParameters.days.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1,
+                                 std::to_string(apiCallParameters.days.value()));
+            }
         }
         else if (word == "min_visibility") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().minVisibility));
+            if (apiCallParameters.minimumVisibility.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1,
+                                 std::to_string(apiCallParameters.minimumVisibility.value()));
+            }
         }
         else if (word == "min_elevation") 
         {
-            apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1, std::to_string(config.getConfigValues().minElevation));
+            if (apiCallParameters.minimumElevation.has_value())
+            {
+                apiRequestTemplate = apiRequestTemplate.replace(openPos, closePos - openPos + 1,
+                                 std::to_string(apiCallParameters.minimumElevation.value()));
+            }
         }
     }
-    
-    apiRequestTemplate.append(config.getConfigValues().apiKey);
+
+
+    apiRequestTemplate.append(apiCallParameters.apiKey);
 
     return apiRequestTemplate;
 }
@@ -125,4 +283,23 @@ size_t DataReceiver::writeCallback(char *ptr, size_t size, size_t nmemb, void *u
     static_cast<DataReceiver*>(userdata)->dataString.append(s);
  
     return sizeTotal;
+}
+
+std::string DataReceiver::getApiRequestTemplate(const ApiType apiType)
+{
+    switch (apiType)
+    {
+    case ApiType::GetTle:
+        return apiRequestTemplates.tle;
+    case ApiType::GetSatellitePositions:
+        return apiRequestTemplates.satellitePositions;
+    case ApiType::GetVisualPasses:
+        return apiRequestTemplates.visualPasses;
+    case ApiType::GetRadioPasses:
+        return apiRequestTemplates.radioPasses;
+    case ApiType::WhatsUp:
+        return apiRequestTemplates.above;
+    default:
+        return {};
+    }
 }
