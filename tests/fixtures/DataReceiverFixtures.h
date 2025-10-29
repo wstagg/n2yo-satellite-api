@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "Config.h"
 #include "DataReceiver.h"
