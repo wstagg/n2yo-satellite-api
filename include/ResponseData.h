@@ -4,12 +4,43 @@
 
 namespace ResponseData
 {
+    struct TleData
+    {
+        struct LineOne
+        {
+            int noradId;
+            char classification;
+            std::string internationalDesignator;
+            double epochTIme;
+            double firstTimeDerivative;
+            double secondTimeDerivative;
+            double bstarDragCoefficient;
+            int ephemerisType;
+            int elementSetNumber;
+            int checkSum;
+        }lineOne;
+
+        struct LineTwo
+        {
+            int noradId;
+            double InclinationDegrees;
+            double rightAscensionDegrees;
+            int orbitEccentricity;
+            double perigeeAugmentDegrees;
+            double meanAnomalyDegrees;
+            double meanMotion; //revolutions per day
+            int totalRevolutionsAtEpoch;
+            int checkSum;
+        }lineTwo;
+    };
+
     struct Tle
     {
         int satId;
         std::string satName;
         int transactionCount;
         std::string tle;
+        TleData tleData;
     };
 
     struct PositionData
