@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <optional>
 
 #include "Config.h" 
 #include "SatelliteCategories.h"
