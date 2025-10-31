@@ -4,34 +4,37 @@
 
 namespace ResponseData
 {
+    struct TleLineOne
+    {
+        int noradId;
+        char classification;
+        std::string internationalDesignator;
+        double epochTime;
+        double firstTimeDerivative;
+        double secondTimeDerivative;
+        double bstarDragCoefficient;
+        int ephemerisType;
+        int elementSetNumber;
+        int checkSum;
+    };
+
+    struct TleLineTwo
+    {
+        int noradId;
+        double inclinationDegrees;
+        double rightAscensionDegrees;
+        int orbitEccentricity;
+        double perigeeArgumentDegrees;
+        double meanAnomalyDegrees;
+        double meanMotion; //revolutions per day
+        int totalRevolutionsAtEpoch;
+        int checkSum;
+    };
+
     struct TleData
     {
-        struct LineOne
-        {
-            int noradId;
-            char classification;
-            std::string internationalDesignator;
-            double epochTIme;
-            double firstTimeDerivative;
-            double secondTimeDerivative;
-            double bstarDragCoefficient;
-            int ephemerisType;
-            int elementSetNumber;
-            int checkSum;
-        }lineOne;
-
-        struct LineTwo
-        {
-            int noradId;
-            double InclinationDegrees;
-            double rightAscensionDegrees;
-            int orbitEccentricity;
-            double perigeeAugmentDegrees;
-            double meanAnomalyDegrees;
-            double meanMotion; //revolutions per day
-            int totalRevolutionsAtEpoch;
-            int checkSum;
-        }lineTwo;
+        TleLineOne tleLineOne;
+        TleLineTwo tleLineTwo;
     };
 
     struct Tle
