@@ -9,6 +9,11 @@ void JsonParser::parseTle(const std::string_view& dataString, ResponseData::Tle&
     json.at("info").at("satname").get_to(tle.satName);
     json.at("info").at("transactionscount").get_to(tle.transactionCount);
     json.at("tle").get_to(tle.tle);
+
+    if (!tle.tle.empty())
+    {
+        tle.tleData.parseTleString(tle.tle);
+    }
 }
 
 void JsonParser::parseSatellitePositions(const std::string_view &dataString, ResponseData::SatellitePosition &satellitePosition)

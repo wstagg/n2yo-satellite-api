@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace ResponseData
 {
@@ -35,6 +36,39 @@ namespace ResponseData
     {
         TleLineOne tleLineOne;
         TleLineTwo tleLineTwo;
+
+        static void parseLineOne(std::string& lineOne)
+        {
+            int spacePos{};
+            std::vector<int> spacePositions;
+
+            for (const auto c : lineOne)
+            {
+                if (c == ' ')
+                {
+                    spacePositions.push_back(spacePos);
+                }
+                ++spacePos;
+            }
+
+
+
+        }
+
+        static void parseLineTwo(std::string& lineTwo)
+        {
+
+        }
+
+        static void parseTleString(const std::string& tleString)
+        {
+            const auto endOfLineOnePos = tleString.find_first_of('\r');
+            auto lineOne = tleString.substr(0, endOfLineOnePos);
+            auto lineTwo = tleString.substr(endOfLineOnePos + 2);
+
+            parseLineOne(lineOne);
+            parseLineTwo(lineTwo);
+        }
     };
 
     struct Tle

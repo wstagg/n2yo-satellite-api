@@ -53,6 +53,7 @@ BOOST_FIXTURE_TEST_CASE(testGetSatelliteRadioPass, DataReceiverFixture)
         observerAlt,
         days,
         minimumElevation);
+
     BOOST_TEST(satelliteRadioPass.satId == noradId);
     BOOST_TEST(!satelliteRadioPass.satName.empty());
     BOOST_TEST(satelliteRadioPass.transactionCount >= 0);
@@ -68,6 +69,7 @@ BOOST_FIXTURE_TEST_CASE(testGetSatellitesAbove, DataReceiverFixture)
         observerAlt,
         searchRadius,
         SatelliteCategory::All);
+
     BOOST_TEST(satellitesAbove.transactionCount >= 0);
     BOOST_TEST(!satellitesAbove.category.empty());
     BOOST_TEST(!satellitesAbove.satelliteCount >= 0);
