@@ -32,7 +32,7 @@ struct DataReceiverFixture
     int searchRadius{90};
     int searchCategory{2};
     int seconds{10};
-    int days{3};
+    int days{10};
     int minimumVisibility{3};
     int minimumElevation{3};
 
