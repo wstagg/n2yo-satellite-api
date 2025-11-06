@@ -105,11 +105,9 @@ inline T DataReceiver::callApi(const ApiType apiType, const ApiCallParameters& a
 
     auto apiUrl = createApiUrl(apiType, apiCallParameters);
 
-    std::cout << apiUrl << std::endl;
-
     auto res = makeCurlRequest(apiUrl);
     
-    if (res == CURLcode::CURLE_OK)
+    if (res == CURLcode::CURLE_OK && !dataString.empty())
     {
         T responseData{};
 

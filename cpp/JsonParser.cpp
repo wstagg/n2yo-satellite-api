@@ -43,27 +43,31 @@ void JsonParser::parseVisualPass(const std::string_view &dataString, ResponseDat
     json.at("info").at("satname").get_to(satelliteVisualPass.satName);
     json.at("info").at("transactionscount").get_to(satelliteVisualPass.transactionCount); 
     json.at("info").at("passescount").get_to(satelliteVisualPass.passCount);
-    auto passes = json.at("passes");
 
-    for (const auto& pass : passes)
+    if (satelliteVisualPass.passCount > 0)
     {
-        ResponseData::VisualPassData visualPassData{};
-        pass.at("startAz").get_to(visualPassData.startAzimuth);
-        pass.at("startAzCompass").get_to(visualPassData.startAzimuthCompass);
-        pass.at("startEl").get_to(visualPassData.startElevation);
-        pass.at("startUTC").get_to(visualPassData.startUTC);
-        pass.at("maxAz").get_to(visualPassData.maxAzimuth);
-        pass.at("maxAzCompass").get_to(visualPassData.maxAzimuthCompass);
-        pass.at("maxEl").get_to(visualPassData.maxElevation);
-        pass.at("maxUTC").get_to(visualPassData.maxUTC);
-        pass.at("endAz").get_to(visualPassData.endAzimuth);
-        pass.at("endAzCompass").get_to(visualPassData.endAzimuthCompass);
-        pass.at("endEl").get_to(visualPassData.endElevation);
-        pass.at("endUTC").get_to(visualPassData.endUTC);
-        pass.at("mag").get_to(visualPassData.maxVisualMagnitude);
-        pass.at("duration").get_to(visualPassData.visibleDuration);
-        
-        satelliteVisualPass.visualPassData.push_back(visualPassData);
+        auto passes = json.at("passes");
+
+        for (const auto& pass : passes)
+        {
+            ResponseData::VisualPassData visualPassData{};
+            pass.at("startAz").get_to(visualPassData.startAzimuth);
+            pass.at("startAzCompass").get_to(visualPassData.startAzimuthCompass);
+            pass.at("startEl").get_to(visualPassData.startElevation);
+            pass.at("startUTC").get_to(visualPassData.startUTC);
+            pass.at("maxAz").get_to(visualPassData.maxAzimuth);
+            pass.at("maxAzCompass").get_to(visualPassData.maxAzimuthCompass);
+            pass.at("maxEl").get_to(visualPassData.maxElevation);
+            pass.at("maxUTC").get_to(visualPassData.maxUTC);
+            pass.at("endAz").get_to(visualPassData.endAzimuth);
+            pass.at("endAzCompass").get_to(visualPassData.endAzimuthCompass);
+            pass.at("endEl").get_to(visualPassData.endElevation);
+            pass.at("endUTC").get_to(visualPassData.endUTC);
+            pass.at("mag").get_to(visualPassData.maxVisualMagnitude);
+            pass.at("duration").get_to(visualPassData.visibleDuration);
+
+            satelliteVisualPass.visualPassData.push_back(visualPassData);
+        }
     }
 }
 
@@ -74,23 +78,27 @@ void JsonParser::parseRadioPass(const std::string_view &dataString, ResponseData
     json.at("info").at("satname").get_to(satelliteRadioPass.satName);
     json.at("info").at("transactionscount").get_to(satelliteRadioPass.transactionCount); 
     json.at("info").at("passescount").get_to(satelliteRadioPass.passCount);
-    auto passes = json.at("passes");
 
-    for (const auto& pass : passes)
+    if (satelliteRadioPass.passCount > 0)
     {
-        ResponseData::RadioPassData radioPassData{};
-        pass.at("startAz").get_to(radioPassData.startAzimuth);
-        pass.at("startAzCompass").get_to(radioPassData.startAzimuthCompass);
-        pass.at("startUTC").get_to(radioPassData.startUTC);
-        pass.at("maxAz").get_to(radioPassData.maxAzimuth);
-        pass.at("maxAzCompass").get_to(radioPassData.maxAzimuthCompass);
-        pass.at("maxEl").get_to(radioPassData.maxElevation);
-        pass.at("maxUTC").get_to(radioPassData.maxUTC);
-        pass.at("endAz").get_to(radioPassData.endAzimuth);
-        pass.at("endAzCompass").get_to(radioPassData.endAzimuthCompass);
-        pass.at("endUTC").get_to(radioPassData.endUTC);
-        
-        satelliteRadioPass.radioPassData.push_back(radioPassData);
+        auto passes = json.at("passes");
+
+        for (const auto& pass : passes)
+        {
+            ResponseData::RadioPassData radioPassData{};
+            pass.at("startAz").get_to(radioPassData.startAzimuth);
+            pass.at("startAzCompass").get_to(radioPassData.startAzimuthCompass);
+            pass.at("startUTC").get_to(radioPassData.startUTC);
+            pass.at("maxAz").get_to(radioPassData.maxAzimuth);
+            pass.at("maxAzCompass").get_to(radioPassData.maxAzimuthCompass);
+            pass.at("maxEl").get_to(radioPassData.maxElevation);
+            pass.at("maxUTC").get_to(radioPassData.maxUTC);
+            pass.at("endAz").get_to(radioPassData.endAzimuth);
+            pass.at("endAzCompass").get_to(radioPassData.endAzimuthCompass);
+            pass.at("endUTC").get_to(radioPassData.endUTC);
+
+            satelliteRadioPass.radioPassData.push_back(radioPassData);
+        }
     }
 }
 
@@ -100,19 +108,23 @@ void JsonParser::parseWhatsAbove(const std::string_view &dataString, ResponseDat
     json.at("info").at("category").get_to(satellitesAbove.category);
     json.at("info").at("transactionscount").get_to(satellitesAbove.transactionCount);
     json.at("info").at("satcount").get_to(satellitesAbove.satelliteCount);
-    auto above = json.at("above");
 
-    for (const auto& sat : above)
+    if (satellitesAbove.satelliteCount > 0)
     {
-        ResponseData::SatelliteData satelliteData{};
-        sat.at("satid").get_to(satelliteData.satId);
-        sat.at("satname").get_to(satelliteData.satName);
-        sat.at("intDesignator").get_to(satelliteData.internationalDesignator);
-        sat.at("launchDate").get_to(satelliteData.launchDate);
-        sat.at("satlat").get_to(satelliteData.lat);
-        sat.at("satlng").get_to(satelliteData.lon);
-        sat.at("satalt").get_to(satelliteData.altKm);
+        auto above = json.at("above");
 
-        satellitesAbove.satellitesAbove.push_back(satelliteData);
+        for (const auto& sat : above)
+        {
+            ResponseData::SatelliteData satelliteData{};
+            sat.at("satid").get_to(satelliteData.satId);
+            sat.at("satname").get_to(satelliteData.satName);
+            sat.at("intDesignator").get_to(satelliteData.internationalDesignator);
+            sat.at("launchDate").get_to(satelliteData.launchDate);
+            sat.at("satlat").get_to(satelliteData.lat);
+            sat.at("satlng").get_to(satelliteData.lon);
+            sat.at("satalt").get_to(satelliteData.altKm);
+
+            satellitesAbove.satellitesAbove.push_back(satelliteData);
+        }
     }
 }
