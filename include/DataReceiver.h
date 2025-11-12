@@ -119,7 +119,7 @@ inline T DataReceiver::callApi(const ApiType apiType, const ApiCallParameters& a
         }
         catch(const std::exception& e)
         {
-            std::cerr << e.what() << '\n';
+            std::cerr << "failed to parse JSON from api request: " << apiUrl << " " << e.what() << '\n';
             return T{};
         }
     }
