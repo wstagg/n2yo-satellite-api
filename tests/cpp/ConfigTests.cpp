@@ -4,7 +4,7 @@
 BOOST_AUTO_TEST_CASE(testConfigReadValidFilePath)
 {
     Config config{};
-    BOOST_TEST(config.read("config.txt") == true);
+    BOOST_TEST(config.read("../config.txt") == true);
 };
 
 BOOST_AUTO_TEST_CASE(testConfigReadInvalidFilePath)
@@ -16,5 +16,5 @@ BOOST_AUTO_TEST_CASE(testConfigReadInvalidFilePath)
 BOOST_AUTO_TEST_CASE(testConfigMissingConfigFileValue)
 {
     Config config{};
-    BOOST_TEST(config.read("config_tests.txt") == false);
+    BOOST_TEST(config.read("../config_tests.txt") == false);
 };

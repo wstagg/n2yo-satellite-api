@@ -32,20 +32,6 @@ target_link_libraries(n2yoSatelliteApi
     Boost::python
     Python3::Python)
 
-# Copy configuration file and directories
-add_custom_command(
-    TARGET n2yoSatelliteApi POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/config.txt
-            ${CMAKE_CURRENT_BINARY_DIR}/config.txt)
-
-# Copy configuration file and directories
-add_custom_command(
-    TARGET n2yoSatelliteApi POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/config_tests.txt
-            ${CMAKE_CURRENT_BINARY_DIR}/config_tests.txt)
-
 include_directories(${CMAKE_SOURCE_DIR}/tests/fixtures)
 
 add_executable(tests

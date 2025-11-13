@@ -12,7 +12,7 @@ struct DataReceiverWithConfigFileFixture
     
     DataReceiverWithConfigFileFixture()
     {
-        configReadSuccess = config.read("config.txt");
+        configReadSuccess = config.read("../config.txt");
         dataReceiver = std::make_unique<DataReceiver>(config);
     }
 
@@ -38,7 +38,7 @@ struct DataReceiverFixture
 
     DataReceiverFixture()
     {
-        config.read("config.txt");
+        config.read("../config.txt");
         apiKey = config.getConfigValues().apiKey;
         dataReceiver = std::make_unique<DataReceiver>();
     }

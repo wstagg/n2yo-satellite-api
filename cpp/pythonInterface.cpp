@@ -130,6 +130,7 @@ BOOST_PYTHON_MODULE(n2yoSatelliteApi)
         const SatelliteCategory&) = &DataReceiver::getSatellitesAbove;
 
     // DataReceiver
+    // TODO add overloaded constructor
     boost::python::class_<DataReceiver>("DataReceiver", boost::python::init<Config&>())
         .def("getTle", getTleNoArgs)
         .def("getTle", getTleWithArgs)
