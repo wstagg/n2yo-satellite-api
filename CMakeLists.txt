@@ -16,13 +16,16 @@ find_package(CURL REQUIRED)
 find_package(Boost REQUIRED COMPONENTS python)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
-include_directories(${CMAKE_SOURCE_DIR}/include/)
+
 
 add_library(n2yoSatelliteApi SHARED 
 cpp/DataReceiver.cpp
 cpp/Config.cpp
 cpp/JsonParser.cpp
 cpp/pythonInterface.cpp)
+
+target_include_directories(n2yoSatelliteApi PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Add this line:
 set_target_properties(n2yoSatelliteApi PROPERTIES PREFIX "")
@@ -31,8 +34,6 @@ target_link_libraries(n2yoSatelliteApi
     CURL::libcurl
     Boost::python
     Python3::Python)
-
-include_directories(${CMAKE_SOURCE_DIR}/tests/fixtures)
 
 add_executable(tests
     tests/cpp/SatelliteTrackerTestsMain.cpp
@@ -43,6 +44,10 @@ add_executable(tests
     cpp/Config.cpp
     cpp/JsonParser.cpp
     cpp/pythonInterface.cpp)
+
+target_include_directories(tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures)
 
 target_link_libraries(tests
     CURL::libcurl
