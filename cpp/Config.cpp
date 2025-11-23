@@ -2,11 +2,11 @@
 #include <fstream>
 #include <iostream>
 
-Config::Config()
+SatelliteApi::Config::Config()
 {
 }
 
-bool Config::read(const std::string& filePath)
+bool SatelliteApi::Config::read(const std::string& filePath)
 {
     std::fstream f{};
 
@@ -59,12 +59,12 @@ bool Config::read(const std::string& filePath)
     return totalOptionsFound == totalConfigValuesSet;
 }
 
-const ConfigValues &Config::getConfigValues()
+const SatelliteApi::ConfigValues &SatelliteApi::Config::getConfigValues()
 {
     return configValues;
 }
 
-void Config::setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet)
+void SatelliteApi::Config::setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet)
 {
     if(option == "API_KEY")
     {

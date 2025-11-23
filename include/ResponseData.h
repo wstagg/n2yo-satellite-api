@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace ResponseData
+namespace SatelliteApi::ResponseData
 {
     struct Tle
     {
@@ -77,7 +77,7 @@ namespace ResponseData
                     this->endUTC == visualPassData2.endUTC &&
                     this->maxVisualMagnitude == visualPassData2.maxVisualMagnitude &&
                     this->visibleDuration == visualPassData2.visibleDuration
-                );
+            );
         }
     };
 
@@ -90,7 +90,7 @@ namespace ResponseData
         std::vector<VisualPassData> visualPassData;
     };
 
-       struct RadioPassData
+    struct RadioPassData
     {
         float startAzimuth;
         std::string startAzimuthCompass;
@@ -102,7 +102,7 @@ namespace ResponseData
         float endAzimuth;
         std::string endAzimuthCompass;
         int endUTC;
-        
+
         bool operator == (const RadioPassData& RadioPassData2)
         {
             return (this->startAzimuth == RadioPassData2.startAzimuth &&
@@ -115,10 +115,10 @@ namespace ResponseData
                     this->endAzimuth == RadioPassData2.endAzimuth &&
                     this->endAzimuthCompass == RadioPassData2.endAzimuthCompass &&
                     this->endUTC == RadioPassData2.endUTC);
-        }     
+        }
     };
-    
-     struct SatelliteRadioPass
+
+    struct SatelliteRadioPass
     {
         int satId;
         std::string satName;
@@ -148,7 +148,7 @@ namespace ResponseData
                     this->altKm == satelliteData2.altKm);
         }
     };
-    
+
     struct SatellitesAbove
     {
         std::string category;

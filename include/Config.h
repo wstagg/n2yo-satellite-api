@@ -1,22 +1,23 @@
 #pragma once
 #include <string>
-#include "ApiType.h"
 
-struct ConfigValues
+namespace SatelliteApi
 {
-    std::string apiKey{};
-    float observerLat{};
-    float observerLon{};
-    float observerAlt{};
-    int searchRadius{};
-    int noradId{};
-    int satelliteCategory{};
-    int seconds{};
-    int days{};
-    int minVisibility{};
-    int minElevation{};
+    struct ConfigValues
+    {
+        std::string apiKey{};
+        float observerLat{};
+        float observerLon{};
+        float observerAlt{};
+        int searchRadius{};
+        int noradId{};
+        int satelliteCategory{};
+        int seconds{};
+        int days{};
+        int minVisibility{};
+        int minElevation{};
 
-    bool operator == (const ConfigValues& configValues2)
+        bool operator == (const ConfigValues& configValues2)
         {
             return (this->apiKey == configValues2.apiKey &&
                     this->observerLat == configValues2.observerLat &&
@@ -28,18 +29,19 @@ struct ConfigValues
                     this->minVisibility == configValues2.minVisibility &&
                     this->minElevation == configValues2.minElevation);
         }
-};
+    };
 
 
 
-class Config
-{
-public:
-    Config();
-    bool read(const std::string& filePath);    
-    const ConfigValues& getConfigValues();
+    class Config
+    {
+    public:
+        Config();
+        bool read(const std::string& filePath);
+        const ConfigValues& getConfigValues();
 
-private:
-    void setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet);
-    ConfigValues configValues;
-};
+    private:
+        void setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet);
+        ConfigValues configValues;
+    };
+}

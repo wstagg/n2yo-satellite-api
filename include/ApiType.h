@@ -1,10 +1,13 @@
 #pragma once 
 
-enum class ApiType
+namespace SatelliteApi
 {
-    GetTle,
-    GetSatellitePositions,
-    GetVisualPasses,
-    GetRadioPasses,
-    WhatsUp
-};
+    enum class ApiType
+    {
+        GetTle,
+        GetSatellitePositions,
+        GetVisualPasses,
+        GetRadioPasses,
+        WhatsUp
+    };
+}
