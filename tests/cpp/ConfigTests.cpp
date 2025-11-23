@@ -1,5 +1,5 @@
 #include <boost/test/unit_test.hpp> 
-#include "Config.h"
+#include "../../include/SatelliteApi/Config.h"
 
 BOOST_AUTO_TEST_CASE(testConfigReadValidFilePath)
 {

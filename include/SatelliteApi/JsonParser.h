@@ -1,5 +1,5 @@
 #pragma once
-#include "ResponseData.h"
+#include "SatelliteApi/ResponseData.h"
 #include "ApiType.h"
 #include <variant>
 

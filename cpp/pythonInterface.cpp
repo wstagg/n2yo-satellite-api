@@ -3,10 +3,10 @@
 #include <boost/python/reference_existing_object.hpp>
 #include <boost/python/return_value_policy.hpp>
 
-#include "Config.h"
-#include "DataReceiver.h"
-#include "ResponseData.h"
-#include "SatelliteCategories.h"
+#include "SatelliteApi/Config.h"
+#include "SatelliteApi/DataReceiver.h"
+#include "SatelliteApi/ResponseData.h"
+#include "SatelliteApi/SatelliteCategories.h"
 
 
 BOOST_PYTHON_MODULE(n2yoSatelliteApi)

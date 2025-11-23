@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include "Config.h"
-#include "DataReceiver.h"
+#include "SatelliteApi/Config.h"
+#include "SatelliteApi/DataReceiver.h"
 
 
 struct DataReceiverWithConfigFileFixture

@@ -5,10 +5,10 @@
 #include <iostream>
 #include <optional>
 
-#include "Config.h" 
-#include "SatelliteCategories.h"
-#include "ApiType.h"
-#include "JsonParser.h"
+#include "SatelliteApi/Config.h"
+#include "SatelliteApi/SatelliteCategories.h"
+#include "SatelliteApi/ApiType.h"
+#include "SatelliteApi/JsonParser.h"
 
 namespace SatelliteApi
 {
