@@ -26,7 +26,7 @@ This is an independent project and is not affiliated with, endorsed by, or conne
 
 ### Linux
 
-After clone the repository, in the terminal, cd in into the project dir and run one of the following build configuration commands.
+After cloning the repository, using the terminal, cd in into the project dir and run one of the following build configuration commands.
 
 Debug with python bindings:
 
