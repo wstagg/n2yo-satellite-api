@@ -9,7 +9,7 @@ OBSERVER_ALT = 0
 SEARCH_RAD = 90
 
 # Satellite identification number that you wish to track 
-NORAD_ID = 0
+NORAD_ID = 25544
 
 # Search category
 # Brightest = 1, ISS = 2, Weather = 3, NOAA = 4, GOES = 5, Earth resources = 6, Search & rescue = 7, Disaster monitoring = 8, Tracking and Data Relay Satellite System = 9, Geostationary = 10, Intelsat = 11, Gorizont = 12, Raduga = 13, Molniya = 14, Iridium = 15, Orbcomm = 16, Globalstar = 17, Amateur radio = 18, Experimental = 19, Global Positioning System (GPS) Operational = 20, Glonass Operational = 21, Galileo = 22, Satellite-Based Augmentation System = 23, Navy Navigation Satellite System = 24, Russian LEO Navigation = 25, Space & Earth Science = 26, Geodetic = 27, Engineering = 28, Education = 29, Military = 30, Radar Calibration = 31, CubeSats = 32, XM and Sirius = 33, TV = 34, Beidou Navigation System = 35, Yaogan = 36, Westford Needles = 37, Parus = 38, Strela = 39, Gonets = 40, Tsiklon = 41, Tsikada = 42, O3B Networks = 43, Tselina = 44, Celestis = 45, IRNSS = 46, QZSS = 47, Flock = 48, Lemur = 49, Global Positioning System (GPS) Constellation = 50, Glonass Constellation = 51, Starlink = 52, OneWeb = 53, Chinese Space Station = 54, Qianfan = 55, Kuiper = 56, GeeSAT = 57
