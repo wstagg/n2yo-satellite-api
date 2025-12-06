@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace SatelliteApi::ResponseData
+namespace OrbitFetcher::ResponseData
 {
     struct Tle
     {

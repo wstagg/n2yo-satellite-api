@@ -1,20 +1,20 @@
 #include <boost/test/unit_test.hpp> 
-#include "../../include/SatelliteApi/Config.h"
+#include "../../include/OrbitFetcher/Config.h"
 
 BOOST_AUTO_TEST_CASE(testConfigReadValidFilePath)
 {
-    SatelliteApi::Config config{};
+    OrbitFetcher::Config config{};
     BOOST_TEST(config.read("../config.txt") == true);
 };
 
 BOOST_AUTO_TEST_CASE(testConfigReadInvalidFilePath)
 {
-    SatelliteApi::Config config{};
+    OrbitFetcher::Config config{};
     BOOST_CHECK_THROW(config.read(""), std::runtime_error);
 };
 
 BOOST_AUTO_TEST_CASE(testConfigMissingConfigFileValue)
 {
-    SatelliteApi::Config config{};
+    OrbitFetcher::Config config{};
     BOOST_TEST(config.read("../config_tests.txt") == false);
 };

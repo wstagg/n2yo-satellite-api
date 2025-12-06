@@ -1,19 +1,19 @@
-#include "SatelliteApi/DataReceiver.h"
+#include "OrbitFetcher/DataReceiver.h"
 #include <iostream>
 #include <string>
 
-SatelliteApi::DataReceiver::DataReceiver()
+OrbitFetcher::DataReceiver::DataReceiver()
 {
     curl = curl_easy_init();
 }
 
-SatelliteApi::DataReceiver::DataReceiver(Config& _config):
+OrbitFetcher::DataReceiver::DataReceiver(Config& _config):
 config{_config}
 {
     curl = curl_easy_init();
 }
 
-SatelliteApi::DataReceiver::~DataReceiver()
+OrbitFetcher::DataReceiver::~DataReceiver()
 {
     if (curl)
     {
@@ -21,7 +21,7 @@ SatelliteApi::DataReceiver::~DataReceiver()
     }
 }
 
-SatelliteApi::ResponseData::Tle SatelliteApi::DataReceiver::getTle()
+OrbitFetcher::ResponseData::Tle OrbitFetcher::DataReceiver::getTle()
 {
     ApiCallParameters apiCallParams;
     apiCallParams.apiKey = config.getConfigValues().apiKey;
@@ -29,7 +29,7 @@ SatelliteApi::ResponseData::Tle SatelliteApi::DataReceiver::getTle()
     return callApi<ResponseData::Tle>(ApiType::GetTle, apiCallParams);
 }
 
-SatelliteApi::ResponseData::Tle SatelliteApi::DataReceiver::getTle(const std::string& apiKey, const int& noradId)
+OrbitFetcher::ResponseData::Tle OrbitFetcher::DataReceiver::getTle(const std::string& apiKey, const int& noradId)
 {
     ApiCallParameters apiCallParams;
     apiCallParams.apiKey = apiKey;
@@ -37,7 +37,7 @@ SatelliteApi::ResponseData::Tle SatelliteApi::DataReceiver::getTle(const std::st
     return callApi<ResponseData::Tle>(ApiType::GetTle, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatellitePosition SatelliteApi::DataReceiver::getSatellitePosition()
+OrbitFetcher::ResponseData::SatellitePosition OrbitFetcher::DataReceiver::getSatellitePosition()
 {
     ApiCallParameters apiCallParams;
     apiCallParams.apiKey = config.getConfigValues().apiKey;
@@ -49,7 +49,7 @@ SatelliteApi::ResponseData::SatellitePosition SatelliteApi::DataReceiver::getSat
     return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatellitePosition SatelliteApi::DataReceiver::getSatellitePosition(
+OrbitFetcher::ResponseData::SatellitePosition OrbitFetcher::DataReceiver::getSatellitePosition(
     const std::string& apiKey,
     const int& noradId,
     const float& observerLat,
@@ -67,7 +67,7 @@ SatelliteApi::ResponseData::SatellitePosition SatelliteApi::DataReceiver::getSat
     return callApi<ResponseData::SatellitePosition>(ApiType::GetSatellitePositions, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatelliteVisualPass SatelliteApi::DataReceiver::getSatelliteVisualPass()
+OrbitFetcher::ResponseData::SatelliteVisualPass OrbitFetcher::DataReceiver::getSatelliteVisualPass()
 {
     ApiCallParameters apiCallParams;
     apiCallParams.apiKey = config.getConfigValues().apiKey;
@@ -80,7 +80,7 @@ SatelliteApi::ResponseData::SatelliteVisualPass SatelliteApi::DataReceiver::getS
     return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatelliteVisualPass SatelliteApi::DataReceiver::getSatelliteVisualPass(
+OrbitFetcher::ResponseData::SatelliteVisualPass OrbitFetcher::DataReceiver::getSatelliteVisualPass(
     const std::string& apiKey,
     const int& noradId,
     const float& observerLat,
@@ -100,7 +100,7 @@ SatelliteApi::ResponseData::SatelliteVisualPass SatelliteApi::DataReceiver::getS
     return callApi<ResponseData::SatelliteVisualPass>(ApiType::GetVisualPasses, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatelliteRadioPass SatelliteApi::DataReceiver::getSatelliteRadioPass()
+OrbitFetcher::ResponseData::SatelliteRadioPass OrbitFetcher::DataReceiver::getSatelliteRadioPass()
 {
     ApiCallParameters apiCallParams;
     apiCallParams.apiKey = config.getConfigValues().apiKey;
@@ -113,7 +113,7 @@ SatelliteApi::ResponseData::SatelliteRadioPass SatelliteApi::DataReceiver::getSa
     return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatelliteRadioPass SatelliteApi::DataReceiver::getSatelliteRadioPass(const std::string& apiKey, const int& noradId,
+OrbitFetcher::ResponseData::SatelliteRadioPass OrbitFetcher::DataReceiver::getSatelliteRadioPass(const std::string& apiKey, const int& noradId,
     const float& observerLat, const float& observerLon, const float& observerAlt, const int& days,
     const int& minimumElevation)
 {
@@ -128,7 +128,7 @@ SatelliteApi::ResponseData::SatelliteRadioPass SatelliteApi::DataReceiver::getSa
     return callApi<ResponseData::SatelliteRadioPass>(ApiType::GetRadioPasses, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatellitesAbove SatelliteApi::DataReceiver::getSatellitesAbove()
+OrbitFetcher::ResponseData::SatellitesAbove OrbitFetcher::DataReceiver::getSatellitesAbove()
 {
     ApiCallParameters apiCallParams;
     apiCallParams.apiKey = config.getConfigValues().apiKey;
@@ -140,7 +140,7 @@ SatelliteApi::ResponseData::SatellitesAbove SatelliteApi::DataReceiver::getSatel
     return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, apiCallParams);
 }
 
-SatelliteApi::ResponseData::SatellitesAbove SatelliteApi::DataReceiver::getSatellitesAbove(
+OrbitFetcher::ResponseData::SatellitesAbove OrbitFetcher::DataReceiver::getSatellitesAbove(
     const std::string& apiKey,
     const float& observerLat,
     const float& observerLon,
@@ -158,7 +158,7 @@ SatelliteApi::ResponseData::SatellitesAbove SatelliteApi::DataReceiver::getSatel
     return callApi<ResponseData::SatellitesAbove>(ApiType::WhatsUp, apiCallParams);
 }
 
-const std::string SatelliteApi::DataReceiver::createApiUrl(const ApiType apiType, const ApiCallParameters& apiCallParameters)
+const std::string OrbitFetcher::DataReceiver::createApiUrl(const ApiType apiType, const ApiCallParameters& apiCallParameters)
 {
     auto apiRequestTemplate = getApiRequestTemplate(apiType);
 
@@ -258,7 +258,7 @@ const std::string SatelliteApi::DataReceiver::createApiUrl(const ApiType apiType
     return apiRequestTemplate;
 }
 
-int SatelliteApi::DataReceiver::makeCurlRequest(const std::string& apiCallUrl)
+int OrbitFetcher::DataReceiver::makeCurlRequest(const std::string& apiCallUrl)
 {
     if (!curl) 
     {
@@ -276,7 +276,7 @@ int SatelliteApi::DataReceiver::makeCurlRequest(const std::string& apiCallUrl)
     return res;
 }
 
-size_t SatelliteApi::DataReceiver::writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata)
+size_t OrbitFetcher::DataReceiver::writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
     auto sizeTotal = size * nmemb;
     std::string s{ptr, sizeTotal};
@@ -285,7 +285,7 @@ size_t SatelliteApi::DataReceiver::writeCallback(char *ptr, size_t size, size_t 
     return sizeTotal;
 }
 
-std::string SatelliteApi::DataReceiver::getApiRequestTemplate(const ApiType apiType)
+std::string OrbitFetcher::DataReceiver::getApiRequestTemplate(const ApiType apiType)
 {
     switch (apiType)
     {

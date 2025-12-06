@@ -1,9 +1,9 @@
 #pragma once
-#include "SatelliteApi/ResponseData.h"
+#include "OrbitFetcher/ResponseData.h"
 #include "ApiType.h"
 #include <variant>
 
-namespace SatelliteApi
+namespace OrbitFetcher
 {
     class JsonParser
     {
@@ -11,10 +11,10 @@ namespace SatelliteApi
         JsonParser() = default;
 
         template<typename T>
-        void parse(const SatelliteApi::ApiType &apiType, const std::string_view& dataString, T& responseData);
+        void parse(const OrbitFetcher::ApiType &apiType, const std::string_view& dataString, T& responseData);
 
     private:
-        const SatelliteApi::ApiType apiType{};
+        const OrbitFetcher::ApiType apiType{};
         const std::string_view data{};
 
         void parseTle(const std::string_view& dataString, ResponseData::Tle& tle);
@@ -25,7 +25,7 @@ namespace SatelliteApi
     };
 
     template <typename T>
-    inline void JsonParser::parse(const SatelliteApi::ApiType &apiType, const std::string_view& dataString, T& responseData)
+    inline void JsonParser::parse(const OrbitFetcher::ApiType &apiType, const std::string_view& dataString, T& responseData)
     {
         if constexpr(std::is_same_v<T, ResponseData::Tle>)
         {

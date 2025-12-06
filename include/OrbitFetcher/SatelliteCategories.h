@@ -1,6 +1,6 @@
 #pragma once
 
-namespace SatelliteApi
+namespace OrbitFetcher
 {
     enum class SatelliteCategory : int
     {

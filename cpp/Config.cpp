@@ -1,12 +1,12 @@
-#include "SatelliteApi/Config.h"
+#include "OrbitFetcher/Config.h"
 #include <fstream>
 #include <iostream>
 
-SatelliteApi::Config::Config()
+OrbitFetcher::Config::Config()
 {
 }
 
-bool SatelliteApi::Config::read(const std::string& filePath)
+bool OrbitFetcher::Config::read(const std::string& filePath)
 {
     std::fstream f{};
 
@@ -59,12 +59,12 @@ bool SatelliteApi::Config::read(const std::string& filePath)
     return totalOptionsFound == totalConfigValuesSet;
 }
 
-const SatelliteApi::ConfigValues &SatelliteApi::Config::getConfigValues()
+const OrbitFetcher::ConfigValues &OrbitFetcher::Config::getConfigValues()
 {
     return configValues;
 }
 
-void SatelliteApi::Config::setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet)
+void OrbitFetcher::Config::setConfigValue(const std::string& option, const std::string& value, int& totalConfigValuesSet)
 {
     if(option == "API_KEY")
     {

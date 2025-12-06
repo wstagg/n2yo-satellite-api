@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20.0)
 
-project(n2yoSatelliteApi)
+project(OrbitFetcher)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,13 +26,13 @@ if (BUILD_PY_BINDINGS)
     list(APPEND SOURCES cpp/pythonInterface.cpp)
 endif ()
 
-add_library(n2yoSatelliteApi SHARED
+add_library(OrbitFetcher SHARED
 ${SOURCES})
 
-target_include_directories(n2yoSatelliteApi PUBLIC
+target_include_directories(OrbitFetcher PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-set_target_properties(n2yoSatelliteApi PROPERTIES PREFIX "")
+set_target_properties(OrbitFetcher PROPERTIES PREFIX "")
 
 set (LIBS CURL::libcurl)
 
@@ -42,23 +42,23 @@ list(APPEND LIBS
         Python3::Python)
 endif ()
 
-target_link_libraries(n2yoSatelliteApi
+target_link_libraries(OrbitFetcher
     ${LIBS})
 
-add_executable(n2yoSatelliteApiTests
-    tests/cpp/SatelliteTrackerTestsMain.cpp
-    tests/cpp/DataReceiverUsingConfigFileTests.cpp
-    tests/cpp/DataReceiverTests.cpp
-    tests/cpp/ConfigTests.cpp
-    cpp/DataReceiver.cpp
-    cpp/Config.cpp
-    cpp/JsonParser.cpp)
+add_executable(OrbitFetcherTests
+        tests/cpp/OrbitFetcherTestsMain.cpp
+        tests/cpp/DataReceiverUsingConfigFileTests.cpp
+        tests/cpp/DataReceiverTests.cpp
+        tests/cpp/ConfigTests.cpp
+        cpp/DataReceiver.cpp
+        cpp/Config.cpp
+        cpp/JsonParser.cpp)
 
-target_include_directories(n2yoSatelliteApiTests PRIVATE
+target_include_directories(OrbitFetcherTests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures)
 
-target_link_libraries(n2yoSatelliteApiTests
+target_link_libraries(OrbitFetcherTests
     CURL::libcurl)
 
-add_test(NAME SatelliteTrackerTests COMMAND n2yoSatelliteApiTests)
+add_test(NAME OrbitFetcherTests COMMAND OrbitFetcherTests)

@@ -67,7 +67,7 @@ BOOST_FIXTURE_TEST_CASE(testGetSatellitesAbove, DataReceiverFixture)
         observerLon,
         observerAlt,
         searchRadius,
-        SatelliteApi::SatelliteCategory::All);
+        OrbitFetcher::SatelliteCategory::All);
     BOOST_TEST(satellitesAbove.transactionCount >= 0);
     BOOST_TEST(!satellitesAbove.category.empty());
     BOOST_TEST(!satellitesAbove.satelliteCount >= 0);

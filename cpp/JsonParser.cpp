@@ -1,8 +1,8 @@
-#include "SatelliteApi/JsonParser.h"
+#include "OrbitFetcher/JsonParser.h"
 #include "nlohmann/json.hpp"
 
 
-void SatelliteApi::JsonParser::parseTle(const std::string_view& dataString, ResponseData::Tle& tle)
+void OrbitFetcher::JsonParser::parseTle(const std::string_view& dataString, ResponseData::Tle& tle)
 {
     nlohmann::json json = nlohmann::json::parse(dataString);
     json.at("info").at("satid").get_to(tle.satId);
@@ -11,7 +11,7 @@ void SatelliteApi::JsonParser::parseTle(const std::string_view& dataString, Resp
     json.at("tle").get_to(tle.tle);
 }
 
-void SatelliteApi::JsonParser::parseSatellitePositions(const std::string_view &dataString, SatelliteApi::ResponseData::SatellitePosition &satellitePosition)
+void OrbitFetcher::JsonParser::parseSatellitePositions(const std::string_view &dataString, OrbitFetcher::ResponseData::SatellitePosition &satellitePosition)
 {
     nlohmann::json json = nlohmann::json::parse(dataString);
     json.at("info").at("satid").get_to(satellitePosition.satId);
@@ -36,7 +36,7 @@ void SatelliteApi::JsonParser::parseSatellitePositions(const std::string_view &d
     }
 }
 
-void SatelliteApi::JsonParser::parseVisualPass(const std::string_view &dataString, SatelliteApi::ResponseData::SatelliteVisualPass &satelliteVisualPass)
+void OrbitFetcher::JsonParser::parseVisualPass(const std::string_view &dataString, OrbitFetcher::ResponseData::SatelliteVisualPass &satelliteVisualPass)
 {
     nlohmann::json json = nlohmann::json::parse(dataString);
     json.at("info").at("satid").get_to(satelliteVisualPass.satId);
@@ -71,7 +71,7 @@ void SatelliteApi::JsonParser::parseVisualPass(const std::string_view &dataStrin
     }
 }
 
-void SatelliteApi::JsonParser::parseRadioPass(const std::string_view &dataString, SatelliteApi::ResponseData::SatelliteRadioPass &satelliteRadioPass)
+void OrbitFetcher::JsonParser::parseRadioPass(const std::string_view &dataString, OrbitFetcher::ResponseData::SatelliteRadioPass &satelliteRadioPass)
 {
     nlohmann::json json = nlohmann::json::parse(dataString);
     json.at("info").at("satid").get_to(satelliteRadioPass.satId);
@@ -102,7 +102,7 @@ void SatelliteApi::JsonParser::parseRadioPass(const std::string_view &dataString
     }
 }
 
-void SatelliteApi::JsonParser::parseWhatsAbove(const std::string_view &dataString, SatelliteApi::ResponseData::SatellitesAbove &satellitesAbove)
+void OrbitFetcher::JsonParser::parseWhatsAbove(const std::string_view &dataString, OrbitFetcher::ResponseData::SatellitesAbove &satellitesAbove)
 {
     nlohmann::json json = nlohmann::json::parse(dataString);
     json.at("info").at("category").get_to(satellitesAbove.category);

@@ -5,12 +5,12 @@
 #include <iostream>
 #include <optional>
 
-#include "SatelliteApi/Config.h"
-#include "SatelliteApi/SatelliteCategories.h"
-#include "SatelliteApi/ApiType.h"
-#include "SatelliteApi/JsonParser.h"
+#include "OrbitFetcher/Config.h"
+#include "OrbitFetcher/SatelliteCategories.h"
+#include "OrbitFetcher/ApiType.h"
+#include "OrbitFetcher/JsonParser.h"
 
-namespace SatelliteApi
+namespace OrbitFetcher
 {
     class DataReceiver
     {

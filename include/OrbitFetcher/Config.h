@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace SatelliteApi
+namespace OrbitFetcher
 {
     struct ConfigValues
     {
