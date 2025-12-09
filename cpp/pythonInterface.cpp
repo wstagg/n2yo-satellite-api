@@ -130,8 +130,9 @@ BOOST_PYTHON_MODULE(OrbitFetcher)
         const OrbitFetcher::SatelliteCategory&) = &OrbitFetcher::DataReceiver::getSatellitesAbove;
 
     // DataReceiver
-    // TODO add overloaded constructor
-    boost::python::class_<OrbitFetcher::DataReceiver>("DataReceiver", boost::python::init<OrbitFetcher::Config&>())
+    boost::python::class_<OrbitFetcher::DataReceiver>("DataReceiver")
+        .def(boost::python::init<>())  // No-argument constructor
+        .def(boost::python::init<OrbitFetcher::Config&>())  // Constructor with Config
         .def("getTle", getTleNoArgs)
         .def("getTle", getTleWithArgs)
         .def("getSatellitePosition", getSatellitePositionNoArgs)

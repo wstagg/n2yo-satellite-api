@@ -196,7 +196,7 @@ Copy the OrbitFetcher.so file and the config.txt file into the root dir of your 
 └── OrbitFetcher.so
 ```
 
-**Example:**
+**Example using config.txt:**
 ```python
 import OrbitFetcher
 
@@ -213,6 +213,19 @@ if ok:
     radioPass = dataReceiver.getSatelliteRadioPass()
     satsAbove = dataReceiver.getSatellitesAbove()
 
+
+```
+**Example using function params:**
+```python
+import OrbitFetcher
+
+dataReceiver = OrbitFetcher.DataReceiver()
+
+tle = dataReceiver.getTle("589P8Q-SDRYX8-L842ZD-5Z9", 25544)
+
+print(tle.tle)
+    
+# Other function calls work the same as cpp...
 
 ```
 I have built a very basic satellite tracking application using matplotlib as an example [satellite tracker](https://github.com/wstagg/Satellite-Tracker-Matplotlib). Feel free to check it out and have a play.
