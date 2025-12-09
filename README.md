@@ -86,7 +86,12 @@ int main()
     OrbitFetcher::Config config;
 
     // Pass in the path to the config.txt file to be read
-    config.read("./config.txt");
+    bool ok = config.read("./config.txt");
+    
+    if (!ok)
+    {
+        return 1;
+    }
 
     // Create an instance of the DataReceiver and pass the config object into the constructor 
     OrbitFetcher::DataReceiver receiver(config);
@@ -163,7 +168,12 @@ int main()
 {
     OrbitFetcher::Config config;
 
-    config.read("config.txt");
+    bool ok = config.read("./config.txt");
+    
+    if (!ok)
+    {
+        return 1;
+    }
 
     // Get API key from config file
     auto apiKey = config.getConfigValues().apiKey;
@@ -175,6 +185,38 @@ int main()
 Each function call returns a ```OrbitFetcher::ResponseData``` struct that holds all the information from the API call, ready for you to use at your disposal.
 
 
-**Note**
+## Python
+Using the library with python is super simple. Build the library with ```--DBUILD_PY_BINDINGS=ON```. 
+
+Copy the OrbitFetcher.so file and the config.txt file into the root dir of your python project, and you are good to go!
+
+```
+├── config.txt
+├── main.py
+└── OrbitFetcher.so
+```
+
+**Example:**
+```python
+import OrbitFetcher
+
+config = OrbitFetcher.Config()
+
+ok = config.read("config.txt")
+
+if ok:
+    dataReceiver = OrbitFetcher.DataReceiver(config)
+
+    tle = dataReceiver.getTle()
+    positions = dataReceiver.getSatellitePosition()
+    visualPass = dataReceiver.getSatelliteVisualPass()
+    radioPass = dataReceiver.getSatelliteRadioPass()
+    satsAbove = dataReceiver.getSatellitesAbove()
+
+
+```
+I have built a very basic satellite tracking application using matplotlib as an example [satellite tracker](https://github.com/wstagg/Satellite-Tracker-Matplotlib). Feel free to check it out and have a play.
+
+# **Note**
 
 Detailed explanations of each API call and its respective response can be found at https://www.n2yo.com/api/ along with usage limits for each call.
