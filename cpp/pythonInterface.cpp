@@ -9,10 +9,10 @@
 #include "OrbitFetcher/SatelliteCategories.h"
 
 
-BOOST_PYTHON_MODULE(n2yoSatelliteApi)
+BOOST_PYTHON_MODULE(OrbitFetcher)
 {
     // Satellite categories
-    boost::python::enum_<OrbitFetcher::SatelliteCategory>("SatelliteApi::SatelliteCategory")
+    boost::python::enum_<OrbitFetcher::SatelliteCategory>("OrbitFetcher::SatelliteCategory")
     .value("All", OrbitFetcher::SatelliteCategory::All)
     .value("Brightest", OrbitFetcher::SatelliteCategory::Brightest)
     .value("ISS", OrbitFetcher::SatelliteCategory::ISS)
@@ -120,8 +120,8 @@ BOOST_PYTHON_MODULE(n2yoSatelliteApi)
         const int&,
         const int&) = &OrbitFetcher::DataReceiver::getSatelliteRadioPass;
 
- OrbitFetcher::ResponseData::SatellitesAbove (OrbitFetcher::DataReceiver::*getSatellitesAboveNoArgs)() = &OrbitFetcher::DataReceiver::getSatellitesAbove;
-OrbitFetcher::ResponseData::SatellitesAbove (OrbitFetcher::DataReceiver::*getSatellitesAboveWithArgs)(
+    OrbitFetcher::ResponseData::SatellitesAbove (OrbitFetcher::DataReceiver::*getSatellitesAboveNoArgs)() = &OrbitFetcher::DataReceiver::getSatellitesAbove;
+    OrbitFetcher::ResponseData::SatellitesAbove (OrbitFetcher::DataReceiver::*getSatellitesAboveWithArgs)(
         const std::string&,
         const float&,
         const float&,
