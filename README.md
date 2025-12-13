@@ -21,6 +21,7 @@ This is an independent project and is not affiliated with, endorsed by, or conne
 - [Curl](https://curl.se/libcurl/)
 - [Boost test](https://www.boost.org/doc/libs/latest/libs/test/doc/html/index.html)
 - [Boost Python](https://www.boost.org/doc/libs/latest/libs/python/doc/html/index.html) [Optional for Python bindings]
+- [nlohmann json](https://github.com/nlohmann/json)
 - CMake version 3.20 >=
 - C++ 20 compatible compiler
 

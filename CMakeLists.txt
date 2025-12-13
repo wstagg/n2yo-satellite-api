@@ -14,6 +14,8 @@ if(POLICY CMP0167)
 endif()
 
 find_package(CURL REQUIRED)
+find_package(nlohmann_json REQUIRED)
+find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 
 set(SOURCES
     cpp/DataReceiver.cpp
@@ -26,24 +28,25 @@ if (BUILD_PY_BINDINGS)
     list(APPEND SOURCES cpp/pythonInterface.cpp)
 endif ()
 
-add_library(OrbitFetcher SHARED
-${SOURCES})
+add_library(OrbitFetcher SHARED ${SOURCES})
 
 target_include_directories(OrbitFetcher PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set_target_properties(OrbitFetcher PROPERTIES PREFIX "")
 
-set (LIBS CURL::libcurl)
+set (LIBS
+    CURL::libcurl
+    nlohmann_json::nlohmann_json
+    Boost::unit_test_framework)
 
 if (BUILD_PY_BINDINGS)
-list(APPEND LIBS
+    list(APPEND LIBS
         Boost::python
         Python3::Python)
 endif ()
 
-target_link_libraries(OrbitFetcher
-    ${LIBS})
+target_link_libraries(OrbitFetcher ${LIBS})
 
 add_executable(OrbitFetcherTests
         tests/cpp/OrbitFetcherTestsMain.cpp
@@ -58,7 +61,6 @@ target_include_directories(OrbitFetcherTests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures)
 
-target_link_libraries(OrbitFetcherTests
-    CURL::libcurl)
+target_link_libraries(OrbitFetcherTests ${LIBS})
 
 add_test(NAME OrbitFetcherTests COMMAND OrbitFetcherTests)
